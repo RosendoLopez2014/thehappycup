@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import type { MenuItem } from '@/lib/types'
+import type { MenuItem, ItemOption } from '@/lib/types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 interface MenuItemCardProps {
-  item: MenuItem
+  item: MenuItem & { item_options?: ItemOption[] }
   disabled?: boolean
   onClick?: () => void
 }
@@ -76,7 +76,11 @@ export function MenuItemCard({ item, disabled = false, onClick }: MenuItemCardPr
           }}
           className="mt-1 w-full bg-warm-600 hover:bg-warm-700 text-white text-xs rounded-xl"
         >
-          {item.description ? 'Customize' : 'Add'}
+          {disabled
+            ? 'Closed'
+            : item.item_options && item.item_options.length > 0
+              ? 'Customize'
+              : 'Add'}
         </Button>
       </CardContent>
     </Card>

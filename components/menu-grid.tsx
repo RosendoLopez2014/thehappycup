@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { MenuItem, MenuCategory, ItemOption } from '@/lib/types'
 import { MenuFilters } from '@/components/menu-filters'
 import { MenuItemCard } from '@/components/menu-item-card'
+import { ItemCustomizationModal } from '@/components/item-customization-modal'
 
 interface MenuGridProps {
   items: (MenuItem & { item_options: ItemOption[] })[]
@@ -13,11 +14,24 @@ interface MenuGridProps {
 
 export function MenuGrid({ items, categories, storeOpen }: MenuGridProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedItem, setSelectedItem] = useState<
+    (MenuItem & { item_options: ItemOption[] }) | null
+  >(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const filteredItems =
     selectedCategory === null
       ? items
       : items.filter((item) => item.category_id === selectedCategory)
+
+  function handleCardClick(item: MenuItem & { item_options: ItemOption[] }) {
+    setSelectedItem(item)
+    setModalOpen(true)
+  }
+
+  function handleModalClose() {
+    setModalOpen(false)
+  }
 
   return (
     <div className="flex flex-col gap-4 px-4 py-4">
@@ -38,11 +52,17 @@ export function MenuGrid({ items, categories, storeOpen }: MenuGridProps) {
               key={item.id}
               item={item}
               disabled={!storeOpen}
-              onClick={undefined}
+              onClick={() => handleCardClick(item)}
             />
           ))}
         </div>
       )}
+
+      <ItemCustomizationModal
+        item={selectedItem}
+        open={modalOpen}
+        onClose={handleModalClose}
+      />
     </div>
   )
 }
