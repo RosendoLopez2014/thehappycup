@@ -74,17 +74,14 @@ export function AdminSidebar() {
       {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col w-60 shrink-0 bg-warm-700 min-h-screen">
         {/* Logo */}
-        <div className="flex items-center gap-3 px-5 py-5 border-b border-warm-600">
+        <div className="flex items-center px-5 py-4 border-b border-warm-600">
           <Image
-            src="/logo/1x/logo.png"
-            alt="The Happy Cup logo"
-            width={32}
-            height={32}
-            className="rounded-full object-cover"
+            src="/logo/header/header-logo-white.png"
+            alt="The Happy Cup"
+            width={260}
+            height={60}
+            className="object-contain h-10 w-auto"
           />
-          <span className="font-display font-semibold text-white text-sm leading-tight">
-            The Happy Cup
-          </span>
         </div>
 
         <div className="py-4 flex-1">
@@ -94,15 +91,14 @@ export function AdminSidebar() {
 
       {/* Mobile top bar — fixed so it stays at top during scroll */}
       <div className="md:hidden flex items-center justify-between px-4 h-14 bg-warm-700 border-b border-warm-600 fixed top-0 left-0 right-0 z-50">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center">
           <Image
-            src="/logo/1x/logo.png"
-            alt="The Happy Cup logo"
-            width={28}
-            height={28}
-            className="rounded-full object-cover"
+            src="/logo/header/header-logo-white.png"
+            alt="The Happy Cup"
+            width={200}
+            height={50}
+            className="object-contain h-8 w-auto"
           />
-          <span className="font-display font-semibold text-white text-sm">The Happy Cup</span>
         </div>
 
         <button
