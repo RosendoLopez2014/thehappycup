@@ -175,18 +175,15 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-warm-200">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo + Brand */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+        <Link href="/" className="flex items-center shrink-0">
           <Image
-            src="/logo/1x/logo.png"
-            alt="The Happy Cup logo"
-            width={40}
+            src="/logo/header/header-logo.png"
+            alt="The Happy Cup"
+            width={120}
             height={40}
             priority
-            className="rounded-full object-cover"
+            className="object-contain h-9 w-auto"
           />
-          <span className="font-display font-semibold text-warm-600 text-base leading-tight">
-            The Happy Cup
-          </span>
         </Link>
 
         {/* Desktop nav */}
