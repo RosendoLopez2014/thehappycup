@@ -173,16 +173,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-warm-200">
-      <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
+      <div className="max-w-5xl mx-auto px-3 h-14 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center shrink-0">
+        <Link href="/" className="flex items-center shrink-0 -my-1">
           <Image
             src="/logo/header/header-logo.png"
             alt="The Happy Cup"
-            width={280}
-            height={60}
+            width={400}
+            height={80}
             priority
-            className="object-contain h-8 sm:h-9 w-auto"
+            className="object-contain h-14 sm:h-16 w-auto max-w-[200px] sm:max-w-[260px]"
           />
         </Link>
 
