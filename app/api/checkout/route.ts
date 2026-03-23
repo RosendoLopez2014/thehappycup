@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { createAdminClient } from '@/lib/supabase/admin'
 import type { OrderItem } from '@/lib/types'
 
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       stripeCustomerId = customer.stripe_customer_id
     } else if (customer) {
       // Create a new Stripe customer
-      const stripeCustomer = await stripe.customers.create({
+      const stripeCustomer = await getStripe().customers.create({
         email: customer.email,
         name: customer.name,
       })
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
   // Create one-time coupon for discount if applicable
   let discounts: { coupon: string }[] | undefined
   if (order.discount > 0) {
-    const coupon = await stripe.coupons.create({
+    const coupon = await getStripe().coupons.create({
       amount_off: Math.round(order.discount * 100),
       currency: 'usd',
       duration: 'once',
@@ -125,7 +125,7 @@ export async function POST(request: Request) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     ...(stripeCustomerId ? { customer: stripeCustomerId } : {}),
     line_items: lineItems,
     ...(discounts ? { discounts } : {}),
