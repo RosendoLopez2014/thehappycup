@@ -1,3 +1,8 @@
+-- Store settings
+INSERT INTO store_settings (key, value) VALUES
+  ('store_hours', '{"monday":{"open":"07:00","close":"19:00"},"tuesday":{"open":"07:00","close":"19:00"},"wednesday":{"open":"07:00","close":"19:00"},"thursday":{"open":"07:00","close":"19:00"},"friday":{"open":"07:00","close":"20:00"},"saturday":{"open":"08:00","close":"20:00"},"sunday":{"open":"08:00","close":"18:00"}}'),
+  ('contact_info', '{"phone":"(555) 123-4567","email":"hello@thehappycup.com"}');
+
 INSERT INTO menu_categories (name, display_order) VALUES
   ('Energy Drinks', 1), ('Matcha', 2), ('Coffee', 3), ('Treats', 4);
 

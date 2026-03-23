@@ -74,10 +74,10 @@ CREATE TABLE orders (
   customer_phone              text,
   delivery_address            text,
   delivery_zip                text,
-  delivery_fee                decimal(10,2) NOT NULL DEFAULT 0,
-  subtotal                    decimal(10,2) NOT NULL,
-  discount                    decimal(10,2) NOT NULL DEFAULT 0,
-  total                       decimal(10,2) NOT NULL,
+  delivery_fee                decimal(10,2) NOT NULL DEFAULT 0 CHECK (delivery_fee >= 0),
+  subtotal                    decimal(10,2) NOT NULL CHECK (subtotal >= 0),
+  discount                    decimal(10,2) NOT NULL DEFAULT 0 CHECK (discount >= 0),
+  total                       decimal(10,2) NOT NULL CHECK (total >= 0),
   notes                       text,
   points_earned               int NOT NULL DEFAULT 0,
   points_redeemed             int NOT NULL DEFAULT 0,
@@ -89,10 +89,10 @@ CREATE TABLE order_items (
   order_id         uuid NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
   menu_item_id     uuid NOT NULL REFERENCES menu_items(id),
   item_name        text NOT NULL,
-  quantity         int NOT NULL,
-  unit_price       decimal(10,2) NOT NULL,
+  quantity         int NOT NULL DEFAULT 1 CHECK (quantity > 0),
+  unit_price       decimal(10,2) NOT NULL CHECK (unit_price >= 0),
   selected_options jsonb NOT NULL DEFAULT '{}',
-  line_total       decimal(10,2) NOT NULL
+  line_total       decimal(10,2) NOT NULL CHECK (line_total >= 0)
 );
 
 CREATE TABLE loyalty_points (
@@ -117,6 +117,19 @@ CREATE TABLE store_settings (
   key   text NOT NULL UNIQUE,
   value jsonb NOT NULL
 );
+
+-- ============================================================
+-- Indexes on foreign keys and common query columns
+-- ============================================================
+CREATE INDEX idx_menu_items_category ON menu_items(category_id);
+CREATE INDEX idx_item_options_item ON item_options(item_id);
+CREATE INDEX idx_customer_addresses_customer ON customer_addresses(customer_id);
+CREATE INDEX idx_orders_customer ON orders(customer_id);
+CREATE INDEX idx_orders_status ON orders(status);
+CREATE INDEX idx_orders_created_at ON orders(created_at DESC);
+CREATE INDEX idx_order_items_order ON order_items(order_id);
+CREATE INDEX idx_order_items_menu_item ON order_items(menu_item_id);
+CREATE INDEX idx_loyalty_points_customer ON loyalty_points(customer_id);
 
 -- ============================================================
 -- Row Level Security
@@ -154,7 +167,9 @@ CREATE POLICY "Customers can select own record"
   ON customers FOR SELECT USING (auth.uid() = user_id);
 
 CREATE POLICY "Customers can update own record"
-  ON customers FOR UPDATE USING (auth.uid() = user_id);
+  ON customers FOR UPDATE
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);
 
 CREATE POLICY "Customers can insert own record"
   ON customers FOR INSERT WITH CHECK (auth.uid() = user_id);
@@ -189,10 +204,3 @@ CREATE POLICY "Customers can select own loyalty points"
   ON loyalty_points FOR SELECT
   USING (customer_id IN (SELECT id FROM customers WHERE user_id = auth.uid()));
 
--- ============================================================
--- Seed: Store Settings
--- ============================================================
-
-INSERT INTO store_settings (key, value) VALUES
-  ('store_hours', '{"monday":{"open":"07:00","close":"19:00"},"tuesday":{"open":"07:00","close":"19:00"},"wednesday":{"open":"07:00","close":"19:00"},"thursday":{"open":"07:00","close":"19:00"},"friday":{"open":"07:00","close":"20:00"},"saturday":{"open":"08:00","close":"20:00"},"sunday":{"open":"08:00","close":"18:00"}}'),
-  ('contact_info', '{"phone":"(555) 123-4567","email":"hello@thehappycup.com"}');
