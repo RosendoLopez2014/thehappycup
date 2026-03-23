@@ -114,59 +114,78 @@ export function Header() {
   )
 
   const authMobile = user ? (
-    <div className="flex flex-col gap-3 border-t border-warm-100 pt-4 mt-2">
+    <div className="flex flex-col gap-1 border-t border-warm-100 pt-3 mt-3">
       {isAdmin && (
         <Link
           href="/admin"
-          className="flex items-center gap-2 text-sm font-semibold text-white bg-warm-600 px-3 py-1.5 rounded-lg hover:bg-warm-700 transition-colors self-start"
+          className="flex items-center gap-3 px-4 py-3 text-base font-semibold text-white bg-warm-600 rounded-lg hover:bg-warm-700 transition-colors min-h-[48px] mx-1 mb-1"
         >
           Admin Dashboard
         </Link>
       )}
       {customer && (
-        <span className="text-xs font-medium text-warm-600 bg-warm-100 px-2.5 py-1 rounded-full self-start">
-          ✦ {customer.points_balance ?? 0} pts
-        </span>
+        <div className="px-4 py-2">
+          <span className="text-sm font-medium text-warm-600 bg-warm-100 px-3 py-1.5 rounded-full">
+            ✦ {customer.points_balance ?? 0} pts
+          </span>
+        </div>
       )}
       <Link
         href="/profile"
-        className="flex items-center gap-2 text-sm font-medium text-warm-600 hover:text-warm-700 transition-colors"
+        className="flex items-center gap-3 px-4 py-3 text-base font-medium text-warm-700 hover:bg-warm-50 rounded-lg transition-colors min-h-[48px]"
       >
-        <User className="w-4 h-4" />
+        <User className="w-5 h-5" />
         Profile
       </Link>
       <button
         onClick={handleSignOut}
-        className="flex items-center gap-2 text-sm font-medium text-warm-400 hover:text-warm-600 transition-colors text-left"
+        className="flex items-center gap-3 px-4 py-3 text-base font-medium text-warm-400 hover:bg-warm-50 rounded-lg transition-colors text-left min-h-[48px] w-full"
       >
-        <LogOut className="w-4 h-4" />
+        <LogOut className="w-5 h-5" />
         Log Out
       </button>
     </div>
   ) : (
-    <div className="flex flex-col gap-3 border-t border-warm-100 pt-4 mt-2">
+    <div className="flex flex-col gap-1 border-t border-warm-100 pt-3 mt-3">
       <Link
         href="/auth/login"
-        className="text-sm font-medium text-warm-600 hover:text-warm-700 transition-colors"
+        className="flex items-center px-4 py-3 text-base font-medium text-warm-700 hover:bg-warm-50 rounded-lg transition-colors min-h-[48px]"
       >
         Log In
       </Link>
       <Link
         href="/auth/signup"
-        className="text-sm font-medium text-warm-600 hover:text-warm-700 transition-colors"
+        className="flex items-center px-4 py-3 text-base font-semibold text-white bg-warm-600 rounded-lg hover:bg-warm-700 transition-colors min-h-[48px] mx-1"
       >
         Sign Up
       </Link>
     </div>
   )
 
-  const navLinks = (
-    <nav className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+  const navLinksDesktop = (
+    <nav className="flex items-center gap-6">
       <Link
         href="/menu"
         className="text-sm font-medium text-warm-600 hover:text-warm-700 transition-colors"
       >
         Menu
+      </Link>
+    </nav>
+  )
+
+  const navLinksMobile = (
+    <nav className="flex flex-col gap-1">
+      <Link
+        href="/menu"
+        className="flex items-center gap-3 px-4 py-3 text-base font-medium text-warm-700 hover:bg-warm-50 rounded-lg transition-colors min-h-[48px]"
+      >
+        Menu
+      </Link>
+      <Link
+        href="/"
+        className="flex items-center gap-3 px-4 py-3 text-base font-medium text-warm-700 hover:bg-warm-50 rounded-lg transition-colors min-h-[48px]"
+      >
+        Home
       </Link>
     </nav>
   )
@@ -188,7 +207,7 @@ export function Header() {
 
         {/* Desktop nav */}
         <div className="hidden sm:flex items-center gap-6">
-          {navLinks}
+          {navLinksDesktop}
 
           {/* Auth */}
           {authDesktop}
@@ -224,8 +243,8 @@ export function Header() {
               <Menu className="w-5 h-5" />
               <span className="sr-only">Open menu</span>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64 bg-white pt-10">
-              {navLinks}
+            <SheetContent side="right" className="w-72 bg-white pt-8 px-2">
+              {navLinksMobile}
               {authMobile}
             </SheetContent>
           </Sheet>

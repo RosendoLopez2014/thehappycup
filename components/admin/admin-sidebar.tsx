@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X } from 'lucide-react'
+import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 
 interface NavItem {
@@ -87,6 +87,16 @@ export function AdminSidebar() {
         <div className="py-4 flex-1">
           <NavLinks pathname={pathname} />
         </div>
+
+        <div className="px-3 py-4 border-t border-warm-600">
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-warm-300 hover:bg-warm-700 hover:text-white transition-colors"
+          >
+            <ExternalLink className="w-4 h-4 shrink-0" />
+            Back to Site
+          </Link>
+        </div>
       </aside>
 
       {/* Mobile top bar — fixed so it stays at top during scroll */}
@@ -114,6 +124,16 @@ export function AdminSidebar() {
       {mobileOpen && (
         <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 fixed top-14 left-0 right-0 z-40 shadow-lg">
           <NavLinks pathname={pathname} onClose={() => setMobileOpen(false)} />
+          <div className="px-3 mt-2 pt-2 border-t border-warm-600">
+            <Link
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-warm-300 hover:bg-warm-700 hover:text-white transition-colors"
+            >
+              <ExternalLink className="w-4 h-4 shrink-0" />
+              Back to Site
+            </Link>
+          </div>
         </div>
       )}
     </>

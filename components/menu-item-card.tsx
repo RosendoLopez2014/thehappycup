@@ -207,19 +207,18 @@ export function MenuItemCard({
             </>
           )}
         </div>
-      </div>
 
-      {/* Expanded options panel — slides down below the card */}
-      <div
-        ref={expandedRef}
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          expanded ? 'max-h-[600px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
-        }`}
-      >
+        {/* Expanded options — inside the same card */}
         <div
-          className="rounded-2xl bg-white border border-warm-200 p-4 shadow-sm"
-          onClick={(e) => e.stopPropagation()}
+          ref={expandedRef}
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            expanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+          }`}
         >
+          <div
+            className="px-4 pb-4 pt-2 border-t border-warm-100"
+            onClick={(e) => e.stopPropagation()}
+          >
           {/* Option groups */}
           {sortedGroups.length > 0 && (
             <div className="flex flex-col gap-3">
@@ -230,7 +229,7 @@ export function MenuItemCard({
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-warm-400 mb-2 block">
                     {capitalize(group)}
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-nowrap gap-1.5 overflow-x-auto scrollbar-hide">
                     {options.map((option) => {
                       const isSelected = selectedOptions[group]?.id === option.id
                       return (
@@ -279,7 +278,7 @@ export function MenuItemCard({
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-nowrap gap-1.5 overflow-x-auto scrollbar-hide">
                       {foamOptions.map((option) => {
                         const isSelected = selectedOptions['happy_foam']?.id === option.id
                         const isFoamOption = option.option_name !== 'No Foam'
@@ -341,6 +340,7 @@ export function MenuItemCard({
             >
               Add to Cart — {formatPrice(totalPrice)}
             </Button>
+          </div>
           </div>
         </div>
       </div>
