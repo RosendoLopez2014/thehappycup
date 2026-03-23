@@ -105,14 +105,14 @@ export function AdminSidebar() {
       </aside>
 
       {/* Mobile top bar — fixed so it stays at top during scroll */}
-      <div className="md:hidden flex items-center justify-between px-4 h-14 bg-warm-700 border-b border-warm-600 fixed top-0 left-0 right-0 z-50">
-        <div className="flex items-center">
+      <div className="md:hidden flex items-center justify-between px-4 h-16 bg-warm-700 border-b border-warm-600 fixed top-0 left-0 right-0 z-50">
+        <div className="flex items-center -my-1">
           <Image
             src="/logo/header/header-logo-white.png"
             alt="The Happy Cup"
-            width={200}
-            height={50}
-            className="object-contain h-8 w-auto"
+            width={300}
+            height={70}
+            className="object-contain h-14 w-auto max-w-[200px]"
           />
         </div>
 
@@ -127,7 +127,7 @@ export function AdminSidebar() {
 
       {/* Mobile dropdown nav — fixed below top bar */}
       {mobileOpen && (
-        <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 fixed top-14 left-0 right-0 z-40 shadow-lg">
+        <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 fixed top-16 left-0 right-0 z-40 shadow-lg">
           <NavLinks pathname={pathname} onClose={() => setMobileOpen(false)} />
           <div className="px-3 mt-2 pt-2 border-t border-warm-600">
             <Link

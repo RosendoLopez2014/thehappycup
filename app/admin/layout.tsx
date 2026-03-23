@@ -13,8 +13,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-screen bg-warm-50">
       <AdminSidebar />
 
-      {/* Main content — mt-14 on mobile accounts for sticky top bar height */}
-      <main className="flex-1 min-w-0 overflow-auto mt-14 md:mt-0">
+      {/* Main content — mt-16 on mobile accounts for sticky top bar height */}
+      <main className="flex-1 min-w-0 overflow-auto mt-16 md:mt-0">
         {children}
       </main>
     </div>
