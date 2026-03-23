@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X, ExternalLink, Package } from 'lucide-react'
+import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X, ArrowLeft, Package } from 'lucide-react'
 import { useState } from 'react'
 
 interface NavItem {
@@ -89,30 +89,37 @@ export function AdminSidebar() {
           />
         </div>
 
-        <div className="py-4 flex-1">
-          <NavLinks pathname={pathname} />
-        </div>
-
-        <div className="px-3 py-4 border-t border-warm-600">
+        <div className="px-3 pt-3 pb-1">
           <Link
             href="/"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-warm-300 hover:bg-warm-700 hover:text-white transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-warm-300 hover:bg-warm-600 hover:text-white transition-colors"
           >
-            <ExternalLink className="w-4 h-4 shrink-0" />
-            Back to Site
+            <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
+            Back to Store
           </Link>
+        </div>
+
+        <div className="py-3 flex-1">
+          <NavLinks pathname={pathname} />
         </div>
       </aside>
 
       {/* Mobile top bar — fixed so it stays at top during scroll */}
-      <div className="md:hidden flex items-center justify-between px-4 h-16 bg-warm-700 border-b border-warm-600 fixed top-0 left-0 right-0 z-50">
-        <div className="flex items-center -my-1">
+      <div className="md:hidden flex items-center justify-between px-3 h-16 bg-warm-700 border-b border-warm-600 fixed top-0 left-0 right-0 z-50">
+        <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="flex items-center justify-center w-9 h-9 rounded-lg text-warm-300 hover:bg-warm-600 hover:text-white transition-colors shrink-0"
+            aria-label="Back to Store"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
           <Image
             src="/logo/header/header-logo-white.png"
             alt="The Happy Cup"
             width={300}
             height={70}
-            className="object-contain h-14 w-auto max-w-[200px]"
+            className="object-contain h-12 w-auto max-w-[160px]"
           />
         </div>
 
@@ -129,16 +136,6 @@ export function AdminSidebar() {
       {mobileOpen && (
         <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 fixed top-16 left-0 right-0 z-40 shadow-lg">
           <NavLinks pathname={pathname} onClose={() => setMobileOpen(false)} />
-          <div className="px-3 mt-2 pt-2 border-t border-warm-600">
-            <Link
-              href="/"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-warm-300 hover:bg-warm-700 hover:text-white transition-colors"
-            >
-              <ExternalLink className="w-4 h-4 shrink-0" />
-              Back to Site
-            </Link>
-          </div>
         </div>
       )}
     </>
