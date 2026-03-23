@@ -163,7 +163,7 @@ export function Header() {
   const navLinks = (
     <nav className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
       <Link
-        href="/"
+        href="/menu"
         className="text-sm font-medium text-warm-600 hover:text-warm-700 transition-colors"
       >
         Menu
