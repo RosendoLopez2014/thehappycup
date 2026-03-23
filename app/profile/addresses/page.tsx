@@ -6,6 +6,8 @@ import { Header } from '@/components/header'
 import { AddressManager } from './address-manager'
 import type { Customer, CustomerAddress } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Saved Addresses' }
 
 export default async function AddressesPage() {

@@ -9,6 +9,8 @@ import { Separator } from '@/components/ui/separator'
 import { createAdminClient } from '@/lib/supabase/admin'
 import type { Order, OrderItem } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Order Confirmed' }
 
 interface ConfirmationPageProps {

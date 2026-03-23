@@ -5,6 +5,8 @@ import { Header } from '@/components/header'
 import { StoreStatusBanner } from '@/components/store-status-banner'
 import { MenuGrid } from '@/components/menu-grid'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const supabase = await createClient()
 

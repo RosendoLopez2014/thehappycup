@@ -5,6 +5,8 @@ import { DeliveryZoneManager } from '@/components/admin/delivery-zone-manager'
 import { StoreHoursForm } from '@/components/admin/store-hours-form'
 import { Separator } from '@/components/ui/separator'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Settings' }
 
 export default async function AdminSettingsPage() {

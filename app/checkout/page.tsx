@@ -5,6 +5,8 @@ import { Header } from '@/components/header'
 import { CheckoutForm } from '@/components/checkout-form'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Checkout' }
 
 interface CheckoutPageProps {

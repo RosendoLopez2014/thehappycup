@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { OrderFeed } from '@/components/admin/order-feed'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Orders' }
 
 async function fetchTodayStats() {

@@ -3,6 +3,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { CustomerTable } from '@/components/admin/customer-table'
 import type { CustomerWithStats } from '@/components/admin/customer-table'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Customers' }
 
 export default async function AdminCustomersPage() {

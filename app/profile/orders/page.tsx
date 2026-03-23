@@ -6,6 +6,8 @@ import { Header } from '@/components/header'
 import { OrderCard } from './order-card'
 import type { Order, OrderItem, Customer } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Order History' }
 
 export default async function OrderHistoryPage() {

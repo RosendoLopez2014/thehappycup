@@ -6,6 +6,8 @@ import { Header } from '@/components/header'
 import { LogOutButton } from './log-out-button'
 import type { Customer, LoyaltyPoints } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'My Profile' }
 
 function formatDate(dateStr: string) {
