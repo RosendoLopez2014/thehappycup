@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import type { DeliveryZone, StoreHours, StoreSetting } from '@/lib/types'
 import { DeliveryZoneManager } from '@/components/admin/delivery-zone-manager'
 import { StoreHoursForm } from '@/components/admin/store-hours-form'
+import { StoreToggle } from '@/components/admin/store-toggle'
 import { Separator } from '@/components/ui/separator'
 
 export const dynamic = 'force-dynamic'
@@ -22,9 +23,21 @@ export default async function AdminSettingsPage() {
   )
   const storeHours = storeHoursSetting?.value as StoreHours | undefined
 
+  const storeOpenSetting = (settings as StoreSetting[] | null)?.find(
+    (s) => s.key === 'store_open'
+  )
+  const storeOpen = (storeOpenSetting?.value as unknown) === true
+
   return (
     <div className="p-4 sm:p-6 space-y-10 max-w-3xl">
       <h1 className="font-display text-2xl font-bold text-warm-700">Settings</h1>
+
+      {/* Store Open/Closed Toggle */}
+      <section>
+        <StoreToggle initialOpen={storeOpen} />
+      </section>
+
+      <Separator />
 
       {/* Delivery Zones */}
       <section className="space-y-4">

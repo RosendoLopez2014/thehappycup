@@ -22,16 +22,18 @@ export default async function MenuPage() {
       .order('display_order'),
     supabase
       .from('store_settings')
-      .select('*')
-      .eq('key', 'store_hours')
-      .single(),
+      .select('*'),
   ])
 
   const categories = categoriesResult.data ?? []
   const items = itemsResult.data ?? []
-  const storeHours = settingsResult.data?.value as StoreHours | undefined
+  const settings = settingsResult.data ?? []
 
-  const storeOpen = storeHours ? isStoreOpen(storeHours) : false
+  const storeHours = settings.find((s) => s.key === 'store_hours')?.value as StoreHours | undefined
+  const storeOpenToggle = settings.find((s) => s.key === 'store_open')?.value
+
+  // Store is open only if the manual toggle is ON
+  const storeOpen = storeOpenToggle === true
 
   return (
     <>
