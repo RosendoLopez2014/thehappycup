@@ -65,10 +65,20 @@ export function Header() {
     router.refresh()
   }
 
+  const isAdmin = user?.app_metadata?.role === 'admin'
   const initial = customer?.name?.charAt(0).toUpperCase() ?? user?.email?.charAt(0).toUpperCase() ?? '?'
 
   const authDesktop = user ? (
     <div className="flex items-center gap-3">
+      {/* Admin link */}
+      {isAdmin && (
+        <Link
+          href="/admin"
+          className="text-xs font-semibold text-white bg-warm-600 px-2.5 py-1 rounded-full hover:bg-warm-700 transition-colors"
+        >
+          Admin
+        </Link>
+      )}
       {/* Points badge */}
       {customer && (
         <span className="text-xs font-medium text-warm-600 bg-warm-100 px-2.5 py-1 rounded-full">
@@ -105,6 +115,14 @@ export function Header() {
 
   const authMobile = user ? (
     <div className="flex flex-col gap-3 border-t border-warm-100 pt-4 mt-2">
+      {isAdmin && (
+        <Link
+          href="/admin"
+          className="flex items-center gap-2 text-sm font-semibold text-white bg-warm-600 px-3 py-1.5 rounded-lg hover:bg-warm-700 transition-colors self-start"
+        >
+          Admin Dashboard
+        </Link>
+      )}
       {customer && (
         <span className="text-xs font-medium text-warm-600 bg-warm-100 px-2.5 py-1 rounded-full self-start">
           ✦ {customer.points_balance ?? 0} pts
