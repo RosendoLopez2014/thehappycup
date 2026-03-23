@@ -60,7 +60,7 @@ export default function LandingPage() {
         <section className="bg-warm-700 text-white py-20 px-4">
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-6">
             <span className="text-5xl select-none">☕</span>
-            <h1 className="text-4xl sm:text-5xl font-bold leading-tight max-w-2xl">
+            <h1 className="font-display text-4xl sm:text-5xl font-bold leading-tight max-w-2xl">
               Fresh Drinks, Delivered Happy
             </h1>
             <p className="text-warm-200 text-lg max-w-xl leading-relaxed">
@@ -88,7 +88,7 @@ export default function LandingPage() {
         <section className="py-16 px-4 bg-warm-50" id="about">
           <div className="max-w-5xl mx-auto flex flex-col gap-8">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-warm-700">What We Make</h2>
+              <h2 className="font-display text-2xl font-bold text-warm-700">What We Make</h2>
               <p className="text-warm-400 text-sm mt-2">
                 Hand-crafted drinks and treats, every day.
               </p>
@@ -131,7 +131,7 @@ export default function LandingPage() {
         <section className="py-16 px-4 bg-white">
           <div className="max-w-5xl mx-auto flex flex-col gap-8">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-warm-700">How It Works</h2>
+              <h2 className="font-display text-2xl font-bold text-warm-700">How It Works</h2>
               <p className="text-warm-400 text-sm mt-2">Ordering is quick and easy.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -153,7 +153,7 @@ export default function LandingPage() {
         <section className="py-16 px-4 bg-warm-50">
           <div className="max-w-3xl mx-auto text-center flex flex-col items-center gap-5">
             <span className="text-4xl select-none">✨</span>
-            <h2 className="text-2xl font-bold text-warm-700">Meet Happy Foam™</h2>
+            <h2 className="font-display text-2xl font-bold text-warm-700">Meet Happy Foam™</h2>
             <p className="text-warm-500 text-base leading-relaxed max-w-lg">
               Our signature creamy topping that turns every drink into something special.
               Light, smooth, and made to elevate every sip.
@@ -207,7 +207,7 @@ export default function LandingPage() {
         <footer className="bg-warm-700 text-warm-200 py-10 px-4">
           <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex flex-col items-center sm:items-start gap-1">
-              <span className="font-semibold text-white text-base">The Happy Cup</span>
+              <span className="font-display font-semibold text-white text-base">The Happy Cup</span>
               <span className="text-xs text-warm-300 italic">sip. smile. repeat.</span>
             </div>
             <nav className="flex gap-5 text-sm">

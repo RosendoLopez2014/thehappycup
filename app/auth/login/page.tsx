@@ -53,7 +53,7 @@ export default function LoginPage() {
           <span className="font-semibold text-warm-700 text-lg">The Happy Cup</span>
         </div>
 
-        <h1 className="text-xl font-semibold text-warm-800 text-center mb-6">Log in</h1>
+        <h1 className="font-display text-xl font-semibold text-warm-800 text-center mb-6">Log in</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">

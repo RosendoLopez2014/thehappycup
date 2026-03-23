@@ -105,7 +105,7 @@ export default function SignupPage() {
           <span className="font-semibold text-warm-700 text-lg">The Happy Cup</span>
         </div>
 
-        <h1 className="text-xl font-semibold text-warm-800 text-center mb-6">Create account</h1>
+        <h1 className="font-display text-xl font-semibold text-warm-800 text-center mb-6">Create account</h1>
 
         {success ? (
           <div className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-center">

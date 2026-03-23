@@ -82,7 +82,7 @@ export function AdminSidebar() {
             height={32}
             className="rounded-full object-cover"
           />
-          <span className="font-semibold text-white text-sm leading-tight">
+          <span className="font-display font-semibold text-white text-sm leading-tight">
             The Happy Cup
           </span>
         </div>
@@ -102,7 +102,7 @@ export function AdminSidebar() {
             height={28}
             className="rounded-full object-cover"
           />
-          <span className="font-semibold text-white text-sm">The Happy Cup</span>
+          <span className="font-display font-semibold text-white text-sm">The Happy Cup</span>
         </div>
 
         <button

@@ -180,7 +180,7 @@ export default async function ConfirmationPage({ searchParams }: ConfirmationPag
     <>
       <Header />
       <main className="max-w-5xl mx-auto w-full px-4 py-8 pb-safe">
-        <h1 className="text-2xl font-semibold text-warm-600 mb-6">Order Confirmation</h1>
+        <h1 className="font-display text-2xl font-semibold text-warm-600 mb-6">Order Confirmation</h1>
         <Suspense fallback={<p className="text-warm-400 text-sm">Loading order…</p>}>
           <ConfirmationContent orderId={orderId} />
         </Suspense>

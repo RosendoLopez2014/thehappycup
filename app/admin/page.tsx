@@ -47,7 +47,7 @@ export default async function AdminOrdersPage() {
 
   return (
     <div className="p-4 sm:p-6 max-w-4xl mx-auto">
-      <h1 className="text-xl font-semibold text-warm-600 mb-5">Orders</h1>
+      <h1 className="font-display text-xl font-semibold text-warm-600 mb-5">Orders</h1>
 
       {/* Today's stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">

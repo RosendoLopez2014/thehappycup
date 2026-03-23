@@ -184,7 +184,7 @@ export function Header() {
             priority
             className="rounded-full object-cover"
           />
-          <span className="font-semibold text-warm-600 text-base leading-tight">
+          <span className="font-display font-semibold text-warm-600 text-base leading-tight">
             The Happy Cup
           </span>
         </Link>

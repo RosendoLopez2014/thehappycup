@@ -65,7 +65,7 @@ export default async function ProfilePage() {
 
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-warm-800">My Profile</h1>
+          <h1 className="font-display text-2xl font-semibold text-warm-800">My Profile</h1>
           <LogOutButton />
         </div>
 

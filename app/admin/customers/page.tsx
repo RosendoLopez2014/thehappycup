@@ -50,7 +50,7 @@ export default async function AdminCustomersPage() {
     <div className="p-4 sm:p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-warm-700">Customers</h1>
+          <h1 className="font-display text-2xl font-bold text-warm-700">Customers</h1>
           <p className="text-sm text-warm-400 mt-0.5">
             {customersWithStats.length} registered customer{customersWithStats.length !== 1 ? 's' : ''}
           </p>

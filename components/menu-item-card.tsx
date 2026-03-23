@@ -175,7 +175,7 @@ export function MenuItemCard({
         {/* Card body */}
         <div className="p-4">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold text-warm-700 text-sm leading-snug line-clamp-1">
+            <h3 className="font-display font-semibold text-warm-700 text-sm leading-snug line-clamp-1">
               {item.name}
             </h3>
             <span className="font-mono text-sm font-semibold text-warm-600 shrink-0">

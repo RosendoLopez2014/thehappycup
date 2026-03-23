@@ -48,7 +48,7 @@ export default function CartPage() {
     <>
       <Header />
       <main className="max-w-5xl mx-auto w-full px-4 py-8 pb-32 lg:pb-8">
-        <h1 className="text-2xl font-semibold text-warm-600 mb-6">Your Cart</h1>
+        <h1 className="font-display text-2xl font-semibold text-warm-600 mb-6">Your Cart</h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left column: cart items + delivery form */}
