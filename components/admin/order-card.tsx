@@ -196,10 +196,10 @@ export function OrderCard({ order, onStatusUpdate }: OrderCardProps) {
       )}
 
       {/* Footer actions */}
-      <div className="flex items-center gap-2 px-4 py-2.5 border-t border-warm-100 bg-white">
+      <div className="flex items-center gap-2 px-4 py-3 border-t border-warm-100 bg-white">
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="flex items-center gap-1 text-xs text-warm-400 hover:text-warm-600 transition-colors"
+          className="flex items-center gap-1 text-xs text-warm-400 hover:text-warm-600 transition-colors min-h-[44px] px-1"
         >
           {expanded ? (
             <><ChevronUp className="w-3.5 h-3.5" /> Less</>
@@ -213,7 +213,7 @@ export function OrderCard({ order, onStatusUpdate }: OrderCardProps) {
             size="sm"
             onClick={handleAdvanceStatus}
             disabled={updating}
-            className="ml-auto bg-warm-600 hover:bg-warm-700 text-white text-xs h-7 px-3"
+            className="ml-auto bg-warm-600 hover:bg-warm-700 text-white text-xs h-9 px-4 min-h-[44px]"
           >
             {updating ? (
               <><Loader2 className="w-3 h-3 mr-1 animate-spin" /> Updating…</>

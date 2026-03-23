@@ -23,7 +23,7 @@ export default async function AdminSettingsPage() {
   const storeHours = storeHoursSetting?.value as StoreHours | undefined
 
   return (
-    <div className="p-6 space-y-10 max-w-3xl">
+    <div className="p-4 sm:p-6 space-y-10 max-w-3xl">
       <h1 className="text-2xl font-bold text-warm-700">Settings</h1>
 
       {/* Delivery Zones */}

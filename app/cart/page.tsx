@@ -47,7 +47,7 @@ export default function CartPage() {
   return (
     <>
       <Header />
-      <main className="max-w-5xl mx-auto w-full px-4 py-8">
+      <main className="max-w-5xl mx-auto w-full px-4 py-8 pb-32 lg:pb-8">
         <h1 className="text-2xl font-semibold text-warm-600 mb-6">Your Cart</h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -70,8 +70,8 @@ export default function CartPage() {
             )}
           </div>
 
-          {/* Right column: order summary sidebar */}
-          <aside className="lg:w-1/3">
+          {/* Right column: order summary sidebar — hidden on mobile (shown in sticky bar below) */}
+          <aside className="hidden lg:block lg:w-1/3">
             <div className="bg-white rounded-2xl border border-warm-200 p-5 sticky top-20">
               <h2 className="text-base font-semibold text-warm-600 mb-4">
                 Order Summary
@@ -94,7 +94,6 @@ export default function CartPage() {
                   </div>
                 )}
 
-                {/* Points discount — placeholder for checkout task */}
                 <div className="flex justify-between text-warm-400">
                   <span>Points discount</span>
                   <span className="font-mono">$0.00</span>
@@ -111,14 +110,14 @@ export default function CartPage() {
               <div className="flex flex-col gap-3 mt-6">
                 {canProceed ? (
                   <Link href={`/checkout?${checkoutParams.toString()}`}>
-                    <Button className="w-full bg-warm-600 hover:bg-warm-700 text-white rounded-xl">
+                    <Button className="w-full bg-warm-600 hover:bg-warm-700 text-white rounded-xl min-h-[44px]">
                       Proceed to Checkout
                     </Button>
                   </Link>
                 ) : (
                   <Button
                     disabled
-                    className="w-full rounded-xl"
+                    className="w-full rounded-xl min-h-[44px]"
                     title={
                       items.length === 0
                         ? 'Your cart is empty'
@@ -145,6 +144,35 @@ export default function CartPage() {
             </div>
           </aside>
         </div>
+
+        {/* Mobile sticky checkout bar */}
+        {items.length > 0 && (
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-warm-200 px-4 py-3 safe-bottom">
+            <div className="flex justify-between text-sm text-warm-600 mb-3">
+              <span>Total</span>
+              <span className="font-mono font-semibold">{formatPrice(total)}</span>
+            </div>
+            {canProceed ? (
+              <Link href={`/checkout?${checkoutParams.toString()}`}>
+                <Button className="w-full bg-warm-600 hover:bg-warm-700 text-white rounded-xl min-h-[48px] text-base font-semibold">
+                  Proceed to Checkout
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                disabled
+                className="w-full rounded-xl min-h-[48px] text-base font-semibold"
+              >
+                Proceed to Checkout
+              </Button>
+            )}
+            {isDeliveryInvalid && (
+              <p className="text-xs text-center text-warm-400 mt-2">
+                Enter a valid delivery zip to continue
+              </p>
+            )}
+          </div>
+        )}
       </main>
     </>
   )

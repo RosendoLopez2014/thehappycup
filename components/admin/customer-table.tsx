@@ -196,8 +196,8 @@ export function CustomerTable({ initialCustomers }: CustomerTableProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-warm-200 overflow-hidden">
-        <Table>
+      <div className="rounded-xl border border-warm-200 overflow-x-auto">
+        <Table className="min-w-[640px]">
           <TableHeader>
             <TableRow className="bg-warm-50">
               <TableHead className="w-[25%]"><SortButton label="Name" colKey="name" /></TableHead>

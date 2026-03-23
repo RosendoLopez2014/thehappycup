@@ -46,11 +46,11 @@ export default async function AdminOrdersPage() {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n)
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-4xl mx-auto">
       <h1 className="text-xl font-semibold text-warm-600 mb-5">Orders</h1>
 
       {/* Today's stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
         <StatCard label="Orders today" value={String(totalOrders)} />
         <StatCard label="Revenue today" value={fmt(revenue)} />
         <StatCard label="Active orders" value={String(pending)} />

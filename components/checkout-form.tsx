@@ -150,7 +150,7 @@ export function CheckoutForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8">
+    <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8 pb-24 lg:pb-0">
       {/* Left column */}
       <div className="flex-1 flex flex-col gap-6">
         {/* Contact info */}
@@ -221,7 +221,7 @@ export function CheckoutForm({
             <button
               type="button"
               onClick={() => setPaymentMethod('card')}
-              className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex-1 py-3 text-sm font-medium transition-colors min-h-[48px] ${
                 paymentMethod === 'card'
                   ? 'bg-warm-600 text-white'
                   : 'bg-warm-100 text-warm-500 hover:bg-warm-200'
@@ -232,7 +232,7 @@ export function CheckoutForm({
             <button
               type="button"
               onClick={() => setPaymentMethod('cash_venmo')}
-              className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex-1 py-3 text-sm font-medium transition-colors min-h-[48px] ${
                 paymentMethod === 'cash_venmo'
                   ? 'bg-warm-600 text-white'
                   : 'bg-warm-100 text-warm-500 hover:bg-warm-200'
@@ -279,9 +279,9 @@ export function CheckoutForm({
         )}
       </div>
 
-      {/* Right column: order summary */}
+      {/* Right column: order summary — on mobile shown as sticky bottom bar */}
       <aside className="lg:w-1/3">
-        <div className="bg-white rounded-2xl border border-warm-200 p-5 sticky top-20">
+        <div className="hidden lg:block bg-white rounded-2xl border border-warm-200 p-5 sticky top-20">
           <h2 className="text-base font-semibold text-warm-600 mb-4">Order Summary</h2>
 
           {/* Line items */}
@@ -342,7 +342,29 @@ export function CheckoutForm({
           <Button
             type="submit"
             disabled={isSubmitting || items.length === 0}
-            className="w-full mt-6 bg-warm-600 hover:bg-warm-700 text-white rounded-xl disabled:opacity-50"
+            className="w-full mt-6 bg-warm-600 hover:bg-warm-700 text-white rounded-xl disabled:opacity-50 min-h-[48px]"
+          >
+            {isSubmitting
+              ? 'Placing order…'
+              : paymentMethod === 'card'
+              ? 'Pay with Card'
+              : 'Place Order'}
+          </Button>
+        </div>
+
+        {/* Mobile sticky order bar */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-warm-200 px-4 py-3 safe-bottom">
+          <div className="flex justify-between items-center text-sm text-warm-600 mb-3">
+            <span>Total</span>
+            <span className="font-mono font-semibold">{formatPrice(total)}</span>
+          </div>
+          {error && (
+            <p className="mb-2 text-sm text-red-500 text-center">{error}</p>
+          )}
+          <Button
+            type="submit"
+            disabled={isSubmitting || items.length === 0}
+            className="w-full bg-warm-600 hover:bg-warm-700 text-white rounded-xl disabled:opacity-50 min-h-[48px] text-base font-semibold"
           >
             {isSubmitting
               ? 'Placing order…'

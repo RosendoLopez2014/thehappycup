@@ -63,9 +63,9 @@ export function CartSummary() {
                       item.quantity - 1
                     )
                   }
-                  className="w-7 h-7 rounded-full border border-warm-200 flex items-center justify-center text-warm-600 hover:bg-warm-100 transition-colors"
+                  className="w-9 h-9 rounded-full border border-warm-200 flex items-center justify-center text-warm-600 hover:bg-warm-100 transition-colors"
                 >
-                  <Minus className="w-3 h-3" />
+                  <Minus className="w-3.5 h-3.5" />
                 </button>
                 <span className="w-5 text-center text-sm font-medium text-warm-600">
                   {item.quantity}
@@ -79,9 +79,9 @@ export function CartSummary() {
                       item.quantity + 1
                     )
                   }
-                  className="w-7 h-7 rounded-full border border-warm-200 flex items-center justify-center text-warm-600 hover:bg-warm-100 transition-colors"
+                  className="w-9 h-9 rounded-full border border-warm-200 flex items-center justify-center text-warm-600 hover:bg-warm-100 transition-colors"
                 >
-                  <Plus className="w-3 h-3" />
+                  <Plus className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -94,7 +94,7 @@ export function CartSummary() {
               <button
                 aria-label={`Remove ${item.name} from cart`}
                 onClick={() => removeItem(item.menuItemId, item.selectedOptions)}
-                className="text-warm-300 hover:text-red-500 transition-colors"
+                className="text-warm-300 hover:text-red-500 transition-colors w-9 h-9 flex items-center justify-center rounded-full hover:bg-red-50"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

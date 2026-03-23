@@ -131,8 +131,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Prevent horizontal overflow on mobile */
+    overflow-x: hidden;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
+}
+
+/* Hide scrollbar while keeping scroll functionality (cross-browser) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area padding helpers for notched phones */
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
 }

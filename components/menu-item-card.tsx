@@ -205,7 +205,7 @@ export function MenuItemCard({
       <div
         ref={expandedRef}
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          expanded ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+          expanded ? 'max-h-[600px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
         }`}
       >
         <div
@@ -228,7 +228,7 @@ export function MenuItemCard({
                           key={option.id}
                           type="button"
                           onClick={() => handleSelectOption(group, option)}
-                          className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
+                          className={`rounded-full px-3 py-2 text-xs font-medium transition-all duration-200 min-h-[44px] ${
                             isSelected
                               ? 'bg-warm-600 text-white shadow-sm'
                               : 'bg-warm-50 text-warm-500 hover:bg-warm-100 hover:text-warm-600'
@@ -258,7 +258,7 @@ export function MenuItemCard({
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 disabled={quantity <= 1}
                 aria-label="Decrease quantity"
-                className="flex h-7 w-7 items-center justify-center rounded-full text-warm-500 transition-colors hover:bg-warm-100 disabled:opacity-30"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-warm-500 transition-colors hover:bg-warm-100 disabled:opacity-30"
               >
                 <MinusIcon className="h-3.5 w-3.5" />
               </button>
@@ -270,7 +270,7 @@ export function MenuItemCard({
                 onClick={() => setQuantity((q) => Math.min(10, q + 1))}
                 disabled={quantity >= 10}
                 aria-label="Increase quantity"
-                className="flex h-7 w-7 items-center justify-center rounded-full text-warm-500 transition-colors hover:bg-warm-100 disabled:opacity-30"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-warm-500 transition-colors hover:bg-warm-100 disabled:opacity-30"
               >
                 <PlusIcon className="h-3.5 w-3.5" />
               </button>

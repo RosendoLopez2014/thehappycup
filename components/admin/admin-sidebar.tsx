@@ -92,8 +92,8 @@ export function AdminSidebar() {
         </div>
       </aside>
 
-      {/* Mobile top bar */}
-      <div className="md:hidden flex items-center justify-between px-4 h-14 bg-warm-700 border-b border-warm-600 sticky top-0 z-50">
+      {/* Mobile top bar — fixed so it stays at top during scroll */}
+      <div className="md:hidden flex items-center justify-between px-4 h-14 bg-warm-700 border-b border-warm-600 fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center gap-2.5">
           <Image
             src="/logo/1x/logo.png"
@@ -107,16 +107,16 @@ export function AdminSidebar() {
 
         <button
           onClick={() => setMobileOpen((v) => !v)}
-          className="text-warm-100 hover:text-white p-1.5 rounded-md"
+          className="text-warm-100 hover:text-white p-2 rounded-md w-11 h-11 flex items-center justify-center"
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Mobile dropdown nav */}
+      {/* Mobile dropdown nav — fixed below top bar */}
       {mobileOpen && (
-        <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 sticky top-14 z-40">
+        <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 fixed top-14 left-0 right-0 z-40 shadow-lg">
           <NavLinks pathname={pathname} onClose={() => setMobileOpen(false)} />
         </div>
       )}

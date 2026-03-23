@@ -63,7 +63,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
   return (
     <>
       <Header />
-      <main className="max-w-5xl mx-auto w-full px-4 py-8">
+      <main className="max-w-5xl mx-auto w-full px-4 py-8 pb-32 lg:pb-8">
         <h1 className="text-2xl font-semibold text-warm-600 mb-6">Checkout</h1>
 
         <Suspense>

@@ -67,16 +67,16 @@ export default function LandingPage() {
               Non-alcoholic energy drinks, matcha, coffee &amp; treats — made with love and
               delivered to your door.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 mt-2">
+            <div className="flex flex-col sm:flex-row gap-3 mt-2 w-full sm:w-auto">
               <Link
                 href="/menu"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-warm-700 font-semibold px-6 py-3 text-sm hover:bg-warm-100 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-warm-700 font-semibold px-6 py-3.5 text-sm hover:bg-warm-100 transition-colors min-h-[44px] w-full sm:w-auto"
               >
                 View Menu →
               </Link>
               <Link
                 href="/menu"
-                className="inline-flex items-center justify-center rounded-xl border border-white/40 text-white font-semibold px-6 py-3 text-sm hover:bg-white/10 transition-colors"
+                className="inline-flex items-center justify-center rounded-xl border border-white/40 text-white font-semibold px-6 py-3.5 text-sm hover:bg-white/10 transition-colors min-h-[44px] w-full sm:w-auto"
               >
                 Order Now
               </Link>
@@ -93,12 +93,12 @@ export default function LandingPage() {
                 Hand-crafted drinks and treats, every day.
               </p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-4 pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
               {FEATURED_DRINKS.map((drink) => (
                 <Link
                   key={drink.id}
                   href="/menu"
-                  className="group rounded-2xl overflow-hidden bg-white border border-warm-200 hover:shadow-md transition-shadow flex flex-col"
+                  className="group rounded-2xl overflow-hidden bg-white border border-warm-200 hover:shadow-md transition-shadow flex flex-col shrink-0 w-44 sm:w-auto"
                 >
                   <div
                     className={`h-28 w-full bg-gradient-to-br ${drink.gradient} flex items-center justify-center`}
@@ -116,10 +116,10 @@ export default function LandingPage() {
                 </Link>
               ))}
             </div>
-            <div className="text-center">
+            <div className="flex justify-center">
               <Link
                 href="/menu"
-                className="inline-flex items-center justify-center rounded-xl bg-warm-600 text-white font-semibold px-6 py-3 text-sm hover:bg-warm-700 transition-colors"
+                className="inline-flex items-center justify-center rounded-xl bg-warm-600 text-white font-semibold px-6 py-3.5 text-sm hover:bg-warm-700 transition-colors min-h-[44px] w-full sm:w-auto"
               >
                 See Full Menu →
               </Link>

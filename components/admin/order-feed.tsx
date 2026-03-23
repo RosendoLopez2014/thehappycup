@@ -152,7 +152,7 @@ export function OrderFeed() {
   return (
     <div>
       {/* Filter tabs */}
-      <div className="flex gap-1 overflow-x-auto pb-1 mb-5">
+      <div className="flex gap-1 overflow-x-auto pb-1 mb-5 scrollbar-hide">
         {TABS.map((tab) => (
           <button
             key={tab.id}

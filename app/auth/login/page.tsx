@@ -39,7 +39,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-warm-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-white border border-warm-200 rounded-2xl shadow-sm p-8">
+      <div className="w-full max-w-sm bg-white border border-warm-200 rounded-2xl shadow-sm p-6 sm:p-8">
         {/* Logo */}
         <div className="flex flex-col items-center gap-3 mb-8">
           <Image
@@ -97,7 +97,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-warm-600 hover:bg-warm-700 text-white mt-2"
+            className="w-full bg-warm-600 hover:bg-warm-700 text-white mt-2 min-h-[48px] text-base"
           >
             {loading ? 'Logging in…' : 'Log In'}
           </Button>
