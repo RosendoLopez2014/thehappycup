@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Happy Cup",
+  title: {
+    template: "%s | The Happy Cup",
+    default: "The Happy Cup",
+  },
   description: "sip. smile. repeat.",
 };
 
@@ -28,7 +31,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-warm-50">
+      <body className="min-h-full flex flex-col">
         {children}
         <Toaster />
       </body>
