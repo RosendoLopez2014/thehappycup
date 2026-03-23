@@ -76,21 +76,21 @@ echo "3. Creating test order..."
 ORDER_PAYLOAD=$(python3 -c "
 import json
 payload = {
-  'customer_name': 'Test Script',
-  'customer_email': 'test@script.local',
-  'order_type': 'pickup',
-  'payment_method': 'cash_venmo',
-  'subtotal': float('$ITEM_PRICE'),
-  'delivery_fee': 0,
-  'discount': 0,
-  'total': float('$ITEM_PRICE'),
+  'customerName': 'Test Script',
+  'customerEmail': 'test@script.local',
+  'customerPhone': '5551234567',
+  'orderType': 'pickup',
+  'paymentMethod': 'cash_venmo',
+  'deliveryFee': 0,
+  'pointsToRedeem': 0,
   'items': [{
-    'menu_item_id': '$MENU_ITEM_ID',
-    'item_name': '$ITEM_NAME',
+    'menuItemId': '$MENU_ITEM_ID',
+    'name': '$ITEM_NAME',
+    'price': float('$ITEM_PRICE'),
     'quantity': 1,
-    'unit_price': float('$ITEM_PRICE'),
-    'selected_options': $SELECTED_OPTS,
-    'line_total': float('$ITEM_PRICE')
+    'selectedOptions': $SELECTED_OPTS,
+    'lineTotal': float('$ITEM_PRICE'),
+    'imageUrl': None
   }]
 }
 print(json.dumps(payload))
@@ -100,7 +100,7 @@ ORDER_RESP=$(curl -s -X POST "$BASE_URL/api/orders" \
   -H "Content-Type: application/json" \
   -d "$ORDER_PAYLOAD")
 
-ORDER_ID=$(echo "$ORDER_RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('id',''))" 2>/dev/null || echo "")
+ORDER_ID=$(echo "$ORDER_RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('orderId','') or d.get('id',''))" 2>/dev/null || echo "")
 if [ -z "$ORDER_ID" ]; then
   echo "  Response: $ORDER_RESP"
   fail "Failed to create test order"
