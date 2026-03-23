@@ -245,15 +245,15 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
                 {rows.map((row, idx) => {
                   const ing = ingredients.find((i) => i.id === row.ingredient_id)
                   return (
-                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-2 p-2 rounded-lg bg-warm-50/50 sm:bg-transparent sm:p-0">
-                      {/* Ingredient selector */}
-                      <div className="flex-1 min-w-0">
+                    <div key={idx} className="flex items-center gap-3 p-2 rounded-lg bg-warm-50/50">
+                      {/* Ingredient selector — takes most of the space */}
+                      <div className="flex-[3] min-w-0">
                         <select
                           value={row.ingredient_id}
                           onChange={(e) => updateRow(size, idx, 'ingredient_id', e.target.value)}
-                          className="w-full rounded-lg border border-warm-200 bg-white px-3 py-2 text-sm text-warm-700 focus:outline-none focus:ring-2 focus:ring-warm-500 min-h-[44px]"
+                          className="w-full rounded-lg border border-warm-200 bg-white px-3 py-2.5 text-sm text-warm-700 focus:outline-none focus:ring-2 focus:ring-warm-500 min-h-[44px]"
                         >
-                          <option value="">Select ingredient</option>
+                          <option value="">Select ingredient...</option>
                           {ingredients.map((ingredient) => (
                             <option key={ingredient.id} value={ingredient.id}>
                               {ingredient.name} ({ingredient.unit})
@@ -262,43 +262,40 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
                         </select>
                       </div>
 
-                      {/* Quantity + unit + cost row on mobile */}
-                      <div className="flex items-center gap-2">
-                        {/* Quantity */}
-                        <div className="w-20 shrink-0">
-                          <Input
-                            type="number"
-                            min="0"
-                            step="0.001"
-                            value={row.quantity}
-                            onChange={(e) => updateRow(size, idx, 'quantity', e.target.value)}
-                            placeholder="qty"
-                            className="text-sm font-mono"
-                          />
-                        </div>
-
-                        {/* Unit label */}
-                        <span className="text-xs text-warm-400 w-10 shrink-0 text-center">
-                          {ing?.unit ?? ''}
-                        </span>
-
-                        {/* Line cost */}
-                        <span className="text-xs font-mono text-warm-500 w-14 text-right shrink-0">
-                          {ing
-                            ? `$${(ing.cost_per_unit * (Number(row.quantity) || 0)).toFixed(2)}`
-                            : ''}
-                        </span>
-
-                        {/* Remove */}
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeRow(size, idx)}
-                          className="w-9 h-9 text-warm-300 hover:text-red-500 shrink-0 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-7 sm:h-7"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </Button>
+                      {/* Quantity */}
+                      <div className="w-20 shrink-0">
+                        <Input
+                          type="number"
+                          min="0"
+                          step="0.001"
+                          value={row.quantity}
+                          onChange={(e) => updateRow(size, idx, 'quantity', e.target.value)}
+                          placeholder="qty"
+                          className="text-sm font-mono text-center"
+                        />
                       </div>
+
+                      {/* Unit label */}
+                      <span className="text-xs text-warm-400 w-12 shrink-0">
+                        {ing?.unit ?? ''}
+                      </span>
+
+                      {/* Line cost */}
+                      <span className="text-sm font-mono text-warm-600 w-16 text-right shrink-0 font-medium">
+                        {ing
+                          ? `$${(ing.cost_per_unit * (Number(row.quantity) || 0)).toFixed(2)}`
+                          : '—'}
+                      </span>
+
+                      {/* Remove */}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeRow(size, idx)}
+                        className="w-9 h-9 text-warm-300 hover:text-red-500 shrink-0"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
                     </div>
                   )
                 })}
