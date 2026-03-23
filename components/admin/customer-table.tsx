@@ -200,18 +200,18 @@ export function CustomerTable({ initialCustomers }: CustomerTableProps) {
         <Table>
           <TableHeader>
             <TableRow className="bg-warm-50">
-              <TableHead><SortButton label="Name" colKey="name" /></TableHead>
-              <TableHead><SortButton label="Email" colKey="email" /></TableHead>
-              <TableHead className="text-right">
-                <SortButton label="Orders" colKey="order_count" />
+              <TableHead className="w-[25%]"><SortButton label="Name" colKey="name" /></TableHead>
+              <TableHead className="w-[25%]"><SortButton label="Email" colKey="email" /></TableHead>
+              <TableHead className="w-[12%] text-right">
+                <div className="flex items-center justify-end"><SortButton label="Orders" colKey="order_count" /></div>
               </TableHead>
-              <TableHead className="text-right">
-                <SortButton label="Total Spent" colKey="total_spent" />
+              <TableHead className="w-[15%] text-right">
+                <div className="flex items-center justify-end"><SortButton label="Total Spent" colKey="total_spent" /></div>
               </TableHead>
-              <TableHead className="text-right">
-                <SortButton label="Points" colKey="points_balance" />
+              <TableHead className="w-[12%] text-right">
+                <div className="flex items-center justify-end"><SortButton label="Points" colKey="points_balance" /></div>
               </TableHead>
-              <TableHead className="w-28" />
+              <TableHead className="w-[11%]" />
             </TableRow>
           </TableHeader>
           <TableBody>
