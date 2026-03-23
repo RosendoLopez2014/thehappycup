@@ -3,10 +3,9 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { toast } from 'sonner'
-import { MinusIcon, PlusIcon, XIcon } from 'lucide-react'
+import { MinusIcon, PlusIcon, ChevronDown } from 'lucide-react'
 import type { MenuItem, ItemOption, CartItem } from '@/lib/types'
 import { useCart } from '@/components/cart-provider'
-import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 interface MenuItemCardProps {
@@ -56,7 +55,7 @@ export function MenuItemCard({
   dimmed,
 }: MenuItemCardProps) {
   const { addItem } = useCart()
-  const cardRef = useRef<HTMLDivElement>(null)
+  const expandedRef = useRef<HTMLDivElement>(null)
 
   const itemOptions = item.item_options ?? []
   const optionGroups = useMemo(() => groupOptions(itemOptions), [itemOptions])
@@ -73,6 +72,15 @@ export function MenuItemCard({
       setQuantity(1)
     }
   }, [expanded, optionGroups])
+
+  // Scroll expanded card into view on mobile
+  useEffect(() => {
+    if (expanded && expandedRef.current) {
+      setTimeout(() => {
+        expandedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 100)
+    }
+  }, [expanded])
 
   const optionAdjustments = useMemo(
     () => Object.values(selectedOptions).reduce((sum, opt) => sum + opt.price_adjustment, 0),
@@ -130,175 +138,154 @@ export function MenuItemCard({
     }
   }
 
-  function handleCollapseButton(e: React.MouseEvent) {
-    e.stopPropagation()
-    onCollapse()
-  }
+  const hasOptions = itemOptions.length > 0
 
   return (
-    <Card
-      ref={cardRef}
-      className={`rounded-2xl bg-white border-warm-200 overflow-hidden transition-all duration-300 ${
-        disabled
-          ? 'opacity-60 cursor-not-allowed'
-          : dimmed
-            ? 'opacity-50 cursor-pointer'
-            : 'cursor-pointer'
-      } ${expanded ? 'shadow-lg col-span-full sm:col-span-full lg:col-span-full' : 'hover:shadow-md'}`}
-      onClick={handleCardClick}
+    <div
+      className={`transition-all duration-300 ease-in-out ${
+        dimmed ? 'opacity-40 scale-[0.98]' : ''
+      }`}
     >
-      {/* Image area */}
-      <div className={`relative w-full overflow-hidden transition-all duration-300 ${expanded ? 'h-48' : 'h-40'}`}>
-        {item.image_url ? (
-          <Image
-            src={item.image_url}
-            alt={item.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-warm-100 to-warm-200 flex items-center justify-center">
-            <span className="text-4xl select-none">☕</span>
-          </div>
-        )}
-        {expanded && (
-          <button
-            type="button"
-            onClick={handleCollapseButton}
-            aria-label="Close"
-            className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/30 text-white flex items-center justify-center hover:bg-black/50 transition-colors"
-          >
-            <XIcon className="w-4 h-4" />
-          </button>
-        )}
-      </div>
-
-      <CardContent className="p-4 flex flex-col gap-2">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-warm-600 text-sm leading-snug line-clamp-1">
-            {item.name}
-          </h3>
-          <span className="font-mono text-sm font-medium text-warm-500 shrink-0">
-            {formatPrice(expanded ? unitPrice : item.price)}
-          </span>
+      {/* Main card — always visible */}
+      <div
+        onClick={handleCardClick}
+        className={`relative rounded-2xl bg-white border overflow-hidden cursor-pointer transition-all duration-300 ${
+          expanded
+            ? 'border-warm-600 shadow-lg ring-1 ring-warm-600/20'
+            : 'border-warm-200 hover:shadow-md hover:border-warm-300'
+        } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
+      >
+        {/* Image */}
+        <div className="relative w-full h-40 overflow-hidden">
+          {item.image_url ? (
+            <Image
+              src={item.image_url}
+              alt={item.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-warm-100 to-warm-200 flex items-center justify-center">
+              <span className="text-4xl select-none">☕</span>
+            </div>
+          )}
         </div>
 
-        {item.description && (
-          <p className={`text-xs text-warm-400 leading-relaxed ${expanded ? '' : 'line-clamp-2'}`}>
-            {item.description}
-          </p>
-        )}
+        {/* Card body */}
+        <div className="p-4">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-semibold text-warm-700 text-sm leading-snug line-clamp-1">
+              {item.name}
+            </h3>
+            <span className="font-mono text-sm font-semibold text-warm-600 shrink-0">
+              {formatPrice(expanded ? unitPrice : item.price)}
+            </span>
+          </div>
 
-        {/* Collapsed state: simple button */}
-        {!expanded && (
-          <Button
-            size="sm"
-            disabled={disabled}
-            onClick={(e) => {
-              e.stopPropagation()
-              if (!disabled) handleCardClick()
-            }}
-            className="mt-1 w-full bg-warm-600 hover:bg-warm-700 text-white text-xs rounded-xl"
-          >
-            {disabled
-              ? 'Closed'
-              : itemOptions.length > 0
-                ? 'Customize'
-                : 'Add'}
-          </Button>
-        )}
+          {item.description && (
+            <p className="text-xs text-warm-400 leading-relaxed mt-1 line-clamp-2">
+              {item.description}
+            </p>
+          )}
 
-        {/* Expanded state: full customization UI */}
-        {expanded && (
-          <div
-            className="flex flex-col gap-4 mt-2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Option groups */}
-            {sortedGroups.length > 0 && (
-              <div className="flex flex-col gap-4">
-                {sortedGroups.map(({ group, options }) => (
-                  <div key={group} className="flex flex-col gap-2">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-warm-500">
-                      {capitalize(group)}
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {options.map((option) => {
-                        const isSelected = selectedOptions[group]?.id === option.id
-                        return (
-                          <button
-                            key={option.id}
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleSelectOption(group, option)
-                            }}
-                            className={`rounded-xl border px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warm-500 ${
-                              isSelected
-                                ? 'border-warm-600 bg-warm-600 text-white'
-                                : 'border-warm-200 bg-warm-100 text-warm-500 hover:border-warm-400 hover:text-warm-600'
-                            }`}
-                          >
-                            {option.option_name}
-                            {option.price_adjustment > 0 && (
-                              <span className="ml-1 opacity-80">
-                                +{formatPrice(option.price_adjustment)}
-                              </span>
-                            )}
-                          </button>
-                        )
-                      })}
-                    </div>
+          {/* Collapsed: show a subtle tap hint */}
+          {!expanded && (
+            <div className="mt-3 flex items-center justify-center gap-1.5 text-warm-400">
+              <span className="text-xs font-medium">
+                {hasOptions ? 'Tap to customize' : 'Tap to add'}
+              </span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Expanded options panel — slides down below the card */}
+      <div
+        ref={expandedRef}
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          expanded ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+        }`}
+      >
+        <div
+          className="rounded-2xl bg-white border border-warm-200 p-4 shadow-sm"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Option groups */}
+          {sortedGroups.length > 0 && (
+            <div className="flex flex-col gap-3">
+              {sortedGroups.map(({ group, options }) => (
+                <div key={group}>
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-warm-400 mb-2 block">
+                    {capitalize(group)}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {options.map((option) => {
+                      const isSelected = selectedOptions[group]?.id === option.id
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => handleSelectOption(group, option)}
+                          className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
+                            isSelected
+                              ? 'bg-warm-600 text-white shadow-sm'
+                              : 'bg-warm-50 text-warm-500 hover:bg-warm-100 hover:text-warm-600'
+                          }`}
+                        >
+                          {option.option_name}
+                          {option.price_adjustment > 0 && (
+                            <span className="ml-1 opacity-75">
+                              +{formatPrice(option.price_adjustment)}
+                            </span>
+                          )}
+                        </button>
+                      )
+                    })}
                   </div>
-                ))}
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
+          )}
 
-            {/* Quantity selector */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-warm-500">Quantity</span>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setQuantity((q) => Math.max(1, q - 1))
-                  }}
-                  disabled={quantity <= 1}
-                  aria-label="Decrease quantity"
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-warm-200 text-warm-500 transition-colors hover:border-warm-400 hover:text-warm-600 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <MinusIcon className="h-3.5 w-3.5" />
-                </button>
-                <span className="w-4 text-center font-mono text-sm font-semibold text-warm-600">
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setQuantity((q) => Math.min(10, q + 1))
-                  }}
-                  disabled={quantity >= 10}
-                  aria-label="Increase quantity"
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-warm-200 text-warm-500 transition-colors hover:border-warm-400 hover:text-warm-600 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <PlusIcon className="h-3.5 w-3.5" />
-                </button>
-              </div>
+          {/* Quantity + Add to Cart row */}
+          <div className="flex items-center gap-3 mt-4">
+            {/* Quantity */}
+            <div className="flex items-center gap-2 bg-warm-50 rounded-full px-1 py-1">
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                disabled={quantity <= 1}
+                aria-label="Decrease quantity"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-warm-500 transition-colors hover:bg-warm-100 disabled:opacity-30"
+              >
+                <MinusIcon className="h-3.5 w-3.5" />
+              </button>
+              <span className="w-5 text-center font-mono text-sm font-bold text-warm-700">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.min(10, q + 1))}
+                disabled={quantity >= 10}
+                aria-label="Increase quantity"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-warm-500 transition-colors hover:bg-warm-100 disabled:opacity-30"
+              >
+                <PlusIcon className="h-3.5 w-3.5" />
+              </button>
             </div>
 
             {/* Add to Cart */}
             <Button
               onClick={handleAddToCart}
-              className="w-full rounded-xl bg-warm-600 py-3 text-sm font-semibold text-white hover:bg-warm-700"
+              className="flex-1 rounded-full bg-warm-600 py-2.5 text-sm font-semibold text-white hover:bg-warm-700 transition-colors"
             >
               Add to Cart — {formatPrice(totalPrice)}
             </Button>
           </div>
-        )}
-      </CardContent>
-    </Card>
+        </div>
+      </div>
+    </div>
   )
 }
