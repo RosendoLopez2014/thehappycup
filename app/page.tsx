@@ -149,8 +149,40 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Info section */}
+        {/* Happy Foam™ */}
         <section className="py-16 px-4 bg-warm-50">
+          <div className="max-w-3xl mx-auto text-center flex flex-col items-center gap-5">
+            <span className="text-4xl select-none">✨</span>
+            <h2 className="text-2xl font-bold text-warm-700">Meet Happy Foam™</h2>
+            <p className="text-warm-500 text-base leading-relaxed max-w-lg">
+              Our signature creamy topping that turns every drink into something special.
+              Light, smooth, and made to elevate every sip.
+            </p>
+            <div className="flex flex-wrap justify-center gap-2 mt-1">
+              <span className="rounded-full bg-white border border-warm-200 px-4 py-2 text-sm font-medium text-warm-600">
+                Vanilla
+              </span>
+              <span className="rounded-full bg-white border border-warm-200 px-4 py-2 text-sm font-medium text-warm-600">
+                Blueberry
+              </span>
+              <span className="rounded-full bg-white border border-warm-200 px-4 py-2 text-sm font-medium text-warm-600">
+                Strawberry
+              </span>
+            </div>
+            <p className="text-warm-400 text-xs italic">
+              Available on any drink — just tap &quot;+ Happy Foam™&quot; when you order
+            </p>
+            <Link
+              href="/menu"
+              className="inline-flex items-center justify-center rounded-xl bg-warm-600 text-white font-semibold px-6 py-3.5 text-sm hover:bg-warm-700 transition-colors min-h-[44px] mt-2"
+            >
+              Make it Happy →
+            </Link>
+          </div>
+        </section>
+
+        {/* Info section */}
+        <section className="py-16 px-4 bg-white">
           <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="rounded-2xl bg-white border border-warm-200 p-6 flex flex-col gap-3">
               <span className="text-3xl select-none">🚗</span>

@@ -189,14 +189,22 @@ export function MenuItemCard({
             </p>
           )}
 
-          {/* Collapsed: show a subtle tap hint */}
+          {/* Collapsed: Happy Foam hint + tap to customize */}
           {!expanded && (
-            <div className="mt-3 flex items-center justify-center gap-1.5 text-warm-400">
-              <span className="text-xs font-medium">
-                {hasOptions ? 'Tap to customize' : 'Tap to add'}
-              </span>
-              <ChevronDown className="w-3.5 h-3.5" />
-            </div>
+            <>
+              {hasOptions && itemOptions.some(o => o.option_group === 'happy_foam') && (
+                <div className="mt-2 flex items-center gap-1 text-warm-500">
+                  <span className="text-[11px]">✨</span>
+                  <span className="text-[11px] font-medium">+ Happy Foam™</span>
+                </div>
+              )}
+              <div className="mt-2 flex items-center justify-center gap-1.5 text-warm-400">
+                <span className="text-xs font-medium">
+                  {hasOptions ? 'Tap to customize' : 'Tap to add'}
+                </span>
+                <ChevronDown className="w-3.5 h-3.5" />
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -215,7 +223,9 @@ export function MenuItemCard({
           {/* Option groups */}
           {sortedGroups.length > 0 && (
             <div className="flex flex-col gap-3">
-              {sortedGroups.map(({ group, options }) => (
+              {sortedGroups
+                .filter(({ group }) => group !== 'happy_foam')
+                .map(({ group, options }) => (
                 <div key={group}>
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-warm-400 mb-2 block">
                     {capitalize(group)}
@@ -246,6 +256,54 @@ export function MenuItemCard({
                   </div>
                 </div>
               ))}
+
+              {/* Happy Foam™ — special styled section */}
+              {sortedGroups.some(({ group }) => group === 'happy_foam') && (() => {
+                const foamGroup = sortedGroups.find(({ group }) => group === 'happy_foam')!
+                const foamOptions = foamGroup.options
+                const selectedFoam = selectedOptions['happy_foam']
+                const hasFoam = selectedFoam && selectedFoam.option_name !== 'No Foam'
+                return (
+                  <div className={`rounded-xl border p-3 transition-all duration-200 ${
+                    hasFoam
+                      ? 'border-warm-600/30 bg-warm-600/5'
+                      : 'border-warm-200 bg-warm-50/50'
+                  }`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-warm-500">
+                        ✨ Make it Happy
+                      </span>
+                      {hasFoam && (
+                        <span className="text-[10px] font-medium text-warm-600 bg-warm-200/60 px-2 py-0.5 rounded-full">
+                          +{formatPrice(selectedFoam.price_adjustment)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {foamOptions.map((option) => {
+                        const isSelected = selectedOptions['happy_foam']?.id === option.id
+                        const isFoamOption = option.option_name !== 'No Foam'
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => handleSelectOption('happy_foam', option)}
+                            className={`rounded-full px-3 py-2 text-xs font-medium transition-all duration-200 min-h-[44px] ${
+                              isSelected && isFoamOption
+                                ? 'bg-warm-600 text-white shadow-sm'
+                                : isSelected
+                                  ? 'bg-white text-warm-500 border border-warm-300'
+                                  : 'bg-white text-warm-400 hover:text-warm-500 border border-warm-200'
+                            }`}
+                          >
+                            {isFoamOption ? `+ ${option.option_name}` : option.option_name}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })()}
             </div>
           )}
 
