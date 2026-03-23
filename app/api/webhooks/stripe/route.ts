@@ -48,10 +48,10 @@ export async function POST(request: Request) {
       console.error('Webhook: failed to update order status:', updateError)
     }
 
-    // Fetch order to get customer and total for loyalty points
+    // Fetch order to check if points were already awarded at order creation
     const { data: order, error: orderFetchError } = await supabase
       .from('orders')
-      .select('customer_id, total')
+      .select('customer_id, total, points_earned')
       .eq('id', orderId)
       .single()
 
@@ -60,45 +60,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ received: true })
     }
 
-    if (order?.customer_id) {
+    // Skip points if already awarded at order creation
+    if (order?.customer_id && order.points_earned === 0) {
       const pointsEarned = Math.floor(order.total)
 
-      // Insert loyalty points ledger entry
-      const { error: ledgerError } = await supabase.from('loyalty_points').insert({
+      await supabase.from('loyalty_points').insert({
         customer_id: order.customer_id,
         order_id: orderId,
         points: pointsEarned,
         type: 'earned',
-        description: `Earned from order`,
+        description: `Earned from order #${orderId.slice(0, 8)}`,
       })
 
-      if (ledgerError) {
-        console.error('Webhook: failed to insert loyalty points:', ledgerError)
-      }
+      const { data: customer } = await supabase
+        .from('customers')
+        .select('points_balance')
+        .eq('id', order.customer_id)
+        .single()
 
-      // Attempt atomic increment via RPC
-      const { error: rpcError } = await supabase.rpc('increment_points', {
-        customer_id_param: order.customer_id,
-        points_param: pointsEarned,
-      })
-
-      if (rpcError) {
-        // Fallback: fetch current balance then update
-        const { data: customer } = await supabase
+      if (customer) {
+        await supabase
           .from('customers')
-          .select('points_balance')
+          .update({ points_balance: customer.points_balance + pointsEarned })
           .eq('id', order.customer_id)
-          .single()
-
-        if (customer) {
-          await supabase
-            .from('customers')
-            .update({ points_balance: customer.points_balance + pointsEarned })
-            .eq('id', order.customer_id)
-        }
       }
 
-      // Record points earned on the order
       await supabase
         .from('orders')
         .update({ points_earned: pointsEarned })

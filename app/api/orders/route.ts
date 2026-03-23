@@ -178,6 +178,41 @@ export async function POST(request: Request) {
     }
   }
 
+  // Award loyalty points for all orders (cash/venmo get them immediately, card gets them here too —
+  // the webhook will skip if points are already awarded)
+  if (customerId && total > 0) {
+    const pointsEarned = Math.floor(total)
+
+    // Update order with points earned
+    await supabase
+      .from('orders')
+      .update({ points_earned: pointsEarned })
+      .eq('id', order.id)
+
+    // Insert loyalty points ledger entry
+    await supabase.from('loyalty_points').insert({
+      customer_id: customerId,
+      order_id: order.id,
+      points: pointsEarned,
+      type: 'earned',
+      description: `Earned from order #${order.id.slice(0, 8)}`,
+    })
+
+    // Update customer points balance
+    const { data: customer } = await supabase
+      .from('customers')
+      .select('points_balance')
+      .eq('id', customerId)
+      .single()
+
+    if (customer) {
+      await supabase
+        .from('customers')
+        .update({ points_balance: customer.points_balance + pointsEarned })
+        .eq('id', customerId)
+    }
+  }
+
   // Send order confirmation email (non-blocking — failure does not cancel the order)
   if (resend) {
     try {
