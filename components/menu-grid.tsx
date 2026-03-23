@@ -85,7 +85,7 @@ export function MenuGrid({ items, categories, storeOpen }: MenuGridProps) {
               <MenuItemCard
                 key={item.id}
                 item={item}
-                disabled={!storeOpen}
+                disabled={false}
                 expanded={isExpanded}
                 onExpand={() => handleExpand(item.id)}
                 onCollapse={handleCollapse}
