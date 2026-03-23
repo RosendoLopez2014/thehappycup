@@ -1,0 +1,125 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import Image from 'next/image'
+import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X } from 'lucide-react'
+import { useState } from 'react'
+
+interface NavItem {
+  href: string
+  label: string
+  icon: React.ReactNode
+}
+
+const navItems: NavItem[] = [
+  {
+    href: '/admin',
+    label: 'Orders',
+    icon: <ClipboardList className="w-5 h-5 shrink-0" />,
+  },
+  {
+    href: '/admin/menu',
+    label: 'Menu',
+    icon: <UtensilsCrossed className="w-5 h-5 shrink-0" />,
+  },
+  {
+    href: '/admin/customers',
+    label: 'Customers',
+    icon: <Users className="w-5 h-5 shrink-0" />,
+  },
+  {
+    href: '/admin/settings',
+    label: 'Settings',
+    icon: <Settings className="w-5 h-5 shrink-0" />,
+  },
+]
+
+function NavLinks({ pathname, onClose }: { pathname: string; onClose?: () => void }) {
+  return (
+    <nav className="flex flex-col gap-1 px-3">
+      {navItems.map((item) => {
+        const isActive =
+          item.href === '/admin'
+            ? pathname === '/admin'
+            : pathname.startsWith(item.href)
+
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className={[
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              isActive
+                ? 'bg-warm-600 text-white'
+                : 'text-warm-100 hover:bg-warm-700 hover:text-white',
+            ].join(' ')}
+          >
+            {item.icon}
+            {item.label}
+          </Link>
+        )
+      })}
+    </nav>
+  )
+}
+
+export function AdminSidebar() {
+  const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex flex-col w-60 shrink-0 bg-warm-700 min-h-screen">
+        {/* Logo */}
+        <div className="flex items-center gap-3 px-5 py-5 border-b border-warm-600">
+          <Image
+            src="/logo/1x/logo.png"
+            alt="The Happy Cup logo"
+            width={32}
+            height={32}
+            className="rounded-full object-cover"
+          />
+          <span className="font-semibold text-white text-sm leading-tight">
+            The Happy Cup
+          </span>
+        </div>
+
+        <div className="py-4 flex-1">
+          <NavLinks pathname={pathname} />
+        </div>
+      </aside>
+
+      {/* Mobile top bar */}
+      <div className="md:hidden flex items-center justify-between px-4 h-14 bg-warm-700 border-b border-warm-600 sticky top-0 z-50">
+        <div className="flex items-center gap-2.5">
+          <Image
+            src="/logo/1x/logo.png"
+            alt="The Happy Cup logo"
+            width={28}
+            height={28}
+            className="rounded-full object-cover"
+          />
+          <span className="font-semibold text-white text-sm">The Happy Cup</span>
+        </div>
+
+        <button
+          onClick={() => setMobileOpen((v) => !v)}
+          className="text-warm-100 hover:text-white p-1.5 rounded-md"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+        >
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* Mobile dropdown nav */}
+      {mobileOpen && (
+        <div className="md:hidden bg-warm-700 border-b border-warm-600 py-3 sticky top-14 z-40">
+          <NavLinks pathname={pathname} onClose={() => setMobileOpen(false)} />
+        </div>
+      )}
+    </>
+  )
+}
