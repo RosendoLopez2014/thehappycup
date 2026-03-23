@@ -314,31 +314,55 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
 
               {/* Cost / margin summary */}
               {rows.length > 0 && (
-                <div className="rounded-lg bg-warm-50 border border-warm-200 px-4 py-3 grid grid-cols-3 gap-4 text-sm">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-xs text-warm-400">Cost</span>
-                    <span className="font-mono font-semibold text-warm-700">
-                      ${cost.toFixed(2)}
-                    </span>
+                <>
+                  <div className="rounded-lg bg-warm-50 border border-warm-200 px-4 py-3 grid grid-cols-3 gap-4 text-sm">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-xs text-warm-400">Cost</span>
+                      <span className="font-mono font-semibold text-warm-700">
+                        ${cost.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-xs text-warm-400">Sell price</span>
+                      <span className="font-mono font-semibold text-warm-700">
+                        ${sellPrice.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-xs text-warm-400">Profit / Margin</span>
+                      <span
+                        className={[
+                          'font-mono font-semibold',
+                          profit >= 0 ? 'text-green-600' : 'text-red-500',
+                        ].join(' ')}
+                      >
+                        ${profit.toFixed(2)} ({margin.toFixed(0)}%)
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-xs text-warm-400">Sell price</span>
-                    <span className="font-mono font-semibold text-warm-700">
-                      ${sellPrice.toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-xs text-warm-400">Profit / Margin</span>
-                    <span
+
+                  {/* Pricing suggestions */}
+                  {cost > 0 && margin < 60 && (
+                    <div
                       className={[
-                        'font-mono font-semibold',
-                        profit >= 0 ? 'text-green-600' : 'text-red-500',
+                        'rounded-lg px-4 py-3 text-sm flex flex-col gap-1',
+                        margin < 40
+                          ? 'bg-red-50 border border-red-200 text-red-800'
+                          : 'bg-yellow-50 border border-yellow-200 text-yellow-800',
                       ].join(' ')}
                     >
-                      ${profit.toFixed(2)} ({margin.toFixed(0)}%)
-                    </span>
-                  </div>
-                </div>
+                      <span className="font-semibold">
+                        {margin < 40 ? '⚠ Very low margin' : '⚡ Low margin — consider raising price'}
+                      </span>
+                      <span className="text-xs opacity-80">
+                        Suggested price for 65% margin:{' '}
+                        <span className="font-mono font-semibold">
+                          ${(cost / (1 - 0.65)).toFixed(2)}
+                        </span>
+                      </span>
+                    </div>
+                  )}
+                </>
               )}
 
               {/* Error */}

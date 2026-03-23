@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { deductInventoryForOrder } from '@/lib/inventory'
 
 const validTransitions: Record<string, string[]> = {
   pending: ['confirmed', 'cancelled'],
@@ -66,6 +67,25 @@ export async function PATCH(
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  // Auto-deduct inventory when order is confirmed
+  if (status === 'confirmed') {
+    try {
+      const result = await deductInventoryForOrder(id)
+      if (result.errors.length > 0) {
+        console.error('[inventory] Deduction errors for order', id, result.errors)
+      }
+      if (result.deducted.length > 0) {
+        console.log('[inventory] Deducted for order', id, result.deducted)
+      }
+      if (result.lowStock.length > 0) {
+        console.warn('[inventory] Low stock after order', id, result.lowStock)
+      }
+    } catch (inventoryErr) {
+      // Log but do not fail the status update
+      console.error('[inventory] Unexpected error deducting inventory for order', id, inventoryErr)
+    }
   }
 
   return NextResponse.json(data)

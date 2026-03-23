@@ -11,13 +11,15 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { AlertTriangle, Plus } from 'lucide-react'
-import type { Ingredient } from '@/lib/types'
+import type { Ingredient, InventoryLogWithIngredient } from '@/lib/types'
 import { IngredientForm } from '@/components/admin/ingredient-form'
 import { IngredientRow } from '@/components/admin/ingredient-row'
 
 export default function IngredientsPage() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([])
   const [loading, setLoading] = useState(true)
+  const [activityLog, setActivityLog] = useState<InventoryLogWithIngredient[]>([])
+  const [activityLoading, setActivityLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null)
 
@@ -34,9 +36,23 @@ export default function IngredientsPage() {
     }
   }, [])
 
+  const fetchActivityLog = useCallback(async () => {
+    setActivityLoading(true)
+    try {
+      const res = await fetch('/api/admin/inventory-log?limit=20')
+      const json = await res.json()
+      if (res.ok) setActivityLog(json.data ?? [])
+    } catch (err) {
+      console.error('Failed to fetch inventory log:', err)
+    } finally {
+      setActivityLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     fetchIngredients()
-  }, [fetchIngredients])
+    fetchActivityLog()
+  }, [fetchIngredients, fetchActivityLog])
 
   function handleEdit(ingredient: Ingredient) {
     setEditingIngredient(ingredient)
@@ -178,6 +194,57 @@ export default function IngredientsPage() {
           </div>
         </div>
       )}
+
+      {/* Recent Activity */}
+      <div className="mt-8">
+        <h2 className="text-sm font-semibold text-warm-600 mb-3">Recent Activity</h2>
+        {activityLoading ? (
+          <div className="rounded-xl border border-warm-200 overflow-hidden">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-10 bg-white border-b border-warm-100 animate-pulse" />
+            ))}
+          </div>
+        ) : activityLog.length === 0 ? (
+          <p className="text-sm text-warm-400">No inventory activity yet.</p>
+        ) : (
+          <div className="rounded-xl border border-warm-200 overflow-hidden">
+            {activityLog.map((entry) => {
+              const isDeduction = entry.quantity_change < 0
+              const absChange = Math.abs(entry.quantity_change)
+              const ingName = entry.ingredients?.name ?? entry.ingredient_id
+              const unit = entry.ingredients?.unit ?? ''
+              const ts = new Date(entry.created_at).toLocaleString(undefined, {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+              const orderSuffix = entry.order_id
+                ? ` (Order #${entry.order_id.slice(0, 8)})`
+                : ''
+
+              return (
+                <div
+                  key={entry.id}
+                  className="flex items-center gap-3 px-4 py-2.5 bg-white border-b border-warm-100 last:border-0 text-sm"
+                >
+                  <span className="text-warm-400 shrink-0 text-xs font-mono w-28">{ts}</span>
+                  <span
+                    className={[
+                      'font-mono font-semibold shrink-0 w-16 text-right',
+                      isDeduction ? 'text-red-500' : 'text-green-600',
+                    ].join(' ')}
+                  >
+                    {isDeduction ? '-' : '+'}{absChange} {unit}
+                  </span>
+                  <span className="text-warm-700 font-medium truncate">{ingName}</span>
+                  <span className="text-warm-400 text-xs truncate">{orderSuffix}</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
 
       {/* Add / Edit dialog */}
       <Dialog

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
+import { LowStockAlert } from '@/components/admin/low-stock-alert'
 
 export const metadata: Metadata = {
   title: {
@@ -15,6 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main content — mt-16 on mobile accounts for sticky top bar height */}
       <main className="flex-1 min-w-0 overflow-auto mt-16 md:mt-0">
+        <LowStockAlert />
         {children}
       </main>
     </div>

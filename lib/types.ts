@@ -184,6 +184,19 @@ export type RecipeWithIngredients = Recipe & {
   recipe_ingredients: (RecipeIngredient & { ingredients: Ingredient })[]
 }
 
+export type InventoryLog = {
+  id: string
+  ingredient_id: string
+  order_id: string | null
+  quantity_change: number
+  reason: string
+  created_at: string
+}
+
+export type InventoryLogWithIngredient = InventoryLog & {
+  ingredients: Pick<Ingredient, 'name' | 'unit'>
+}
+
 // ============================================================
 // Cart Type
 // ============================================================
