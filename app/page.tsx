@@ -1,24 +1,43 @@
-import Image from "next/image";
+import { createClient } from '@/lib/supabase/server'
+import type { StoreHours } from '@/lib/types'
+import { isStoreOpen } from '@/lib/store-hours'
+import { Header } from '@/components/header'
+import { StoreStatusBanner } from '@/components/store-status-banner'
+import { MenuGrid } from '@/components/menu-grid'
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient()
+
+  const [categoriesResult, itemsResult, settingsResult] = await Promise.all([
+    supabase
+      .from('menu_categories')
+      .select('*')
+      .order('display_order'),
+    supabase
+      .from('menu_items')
+      .select('*, item_options(*)')
+      .eq('is_available', true)
+      .order('display_order'),
+    supabase
+      .from('store_settings')
+      .select('*')
+      .eq('key', 'store_hours')
+      .single(),
+  ])
+
+  const categories = categoriesResult.data ?? []
+  const items = itemsResult.data ?? []
+  const storeHours = settingsResult.data?.value as StoreHours | undefined
+
+  const storeOpen = storeHours ? isStoreOpen(storeHours) : false
+
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-4 py-16">
-      <div className="flex flex-col items-center gap-6 text-center">
-        <Image
-          src="/logo/1x/logo.png"
-          alt="The Happy Cup logo"
-          width={120}
-          height={120}
-          priority
-        />
-        <h1 className="text-4xl font-bold tracking-tight text-warm-600">
-          The Happy Cup
-        </h1>
-        <p className="text-lg italic text-warm-400">sip. smile. repeat.</p>
-        <p className="text-sm font-medium tracking-widest uppercase text-warm-500">
-          Coming Soon
-        </p>
-      </div>
-    </main>
-  );
+    <>
+      <Header />
+      {storeHours && <StoreStatusBanner storeHours={storeHours} />}
+      <main className="max-w-5xl mx-auto w-full">
+        <MenuGrid items={items} categories={categories} storeOpen={storeOpen} />
+      </main>
+    </>
+  )
 }
