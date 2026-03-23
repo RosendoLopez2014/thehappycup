@@ -156,13 +156,13 @@ export function MenuItemCard({
         } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
       >
         {/* Image */}
-        <div className="relative w-full h-40 overflow-hidden">
+        <div className="relative w-full h-52 overflow-hidden bg-warm-50">
           {item.image_url ? (
             <Image
               src={item.image_url}
               alt={item.name}
               fill
-              className="object-cover"
+              className="object-contain p-2"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
