@@ -4,13 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+// Using native <select> for ingredient dropdown — shadcn Select shows UUIDs instead of names
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Loader2, Plus, Trash2, ChefHat } from 'lucide-react'
 import type { Ingredient, MenuItem, RecipeWithIngredients } from '@/lib/types'
@@ -254,22 +248,18 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
                     <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-2 p-2 rounded-lg bg-warm-50/50 sm:bg-transparent sm:p-0">
                       {/* Ingredient selector */}
                       <div className="flex-1 min-w-0">
-                        <Select
+                        <select
                           value={row.ingredient_id}
-                          onValueChange={(v) => updateRow(size, idx, 'ingredient_id', v ?? '')}
+                          onChange={(e) => updateRow(size, idx, 'ingredient_id', e.target.value)}
+                          className="w-full rounded-lg border border-warm-200 bg-white px-3 py-2 text-sm text-warm-700 focus:outline-none focus:ring-2 focus:ring-warm-500 min-h-[44px]"
                         >
-                          <SelectTrigger className="text-sm">
-                            <SelectValue placeholder="Select ingredient" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {ingredients.map((ing) => (
-                              <SelectItem key={ing.id} value={ing.id}>
-                                {ing.name}{' '}
-                                <span className="text-warm-400 text-xs">({ing.unit})</span>
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                          <option value="">Select ingredient</option>
+                          {ingredients.map((ingredient) => (
+                            <option key={ingredient.id} value={ingredient.id}>
+                              {ingredient.name} ({ingredient.unit})
+                            </option>
+                          ))}
+                        </select>
                       </div>
 
                       {/* Quantity + unit + cost row on mobile */}

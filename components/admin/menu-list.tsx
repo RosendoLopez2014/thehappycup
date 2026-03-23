@@ -403,7 +403,7 @@ export function MenuList({ onEdit, refreshKey }: MenuListProps) {
         open={recipeItem !== null}
         onOpenChange={(open) => { if (!open) setRecipeItem(null) }}
       >
-        <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[98vw] sm:w-[95vw] max-w-3xl max-h-[95vh] overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle>
               Recipe: {recipeItem?.name}
