@@ -19,8 +19,15 @@ import { CSS } from '@dnd-kit/utilities'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import { GripVertical, Pencil, Trash2 } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { GripVertical, Pencil, Trash2, ChefHat } from 'lucide-react'
 import type { MenuItem, ItemOption, MenuCategory } from '@/lib/types'
+import { RecipeBuilder, RecipeCostBadge } from '@/components/admin/recipe-builder'
 
 type MenuItemWithOptions = MenuItem & {
   item_options: ItemOption[]
@@ -42,9 +49,10 @@ interface SortableItemRowProps {
   onToggleAvailability: (id: string, current: boolean) => void
   onEdit: (item: MenuItemWithOptions) => void
   onDelete: (id: string) => void
+  onRecipe: (item: MenuItemWithOptions) => void
 }
 
-function SortableItemRow({ item, onToggleAvailability, onEdit, onDelete }: SortableItemRowProps) {
+function SortableItemRow({ item, onToggleAvailability, onEdit, onDelete, onRecipe }: SortableItemRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
   })
@@ -82,9 +90,12 @@ function SortableItemRow({ item, onToggleAvailability, onEdit, onDelete }: Sorta
             </Badge>
           )}
         </div>
-        {item.description && (
-          <p className="text-xs text-warm-400 truncate mt-0.5">{item.description}</p>
-        )}
+        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+          {item.description && (
+            <p className="text-xs text-warm-400 truncate">{item.description}</p>
+          )}
+          <RecipeCostBadge menuItemId={item.id} sellPrice={item.price} />
+        </div>
       </div>
 
       {/* Price */}
@@ -99,6 +110,18 @@ function SortableItemRow({ item, onToggleAvailability, onEdit, onDelete }: Sorta
         aria-label={`Toggle availability for ${item.name}`}
         className="flex-shrink-0"
       />
+
+      {/* Recipe */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => onRecipe(item)}
+        className="flex-shrink-0 text-warm-400 hover:text-warm-700"
+        aria-label={`Recipe for ${item.name}`}
+        title="Edit recipe"
+      >
+        <ChefHat className="w-4 h-4" />
+      </Button>
 
       {/* Edit */}
       <Button
@@ -132,6 +155,7 @@ function SortableItemRow({ item, onToggleAvailability, onEdit, onDelete }: Sorta
 export function MenuList({ onEdit, refreshKey }: MenuListProps) {
   const [groups, setGroups] = useState<GroupedItems[]>([])
   const [loading, setLoading] = useState(true)
+  const [recipeItem, setRecipeItem] = useState<MenuItemWithOptions | null>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
@@ -323,12 +347,33 @@ export function MenuList({ onEdit, refreshKey }: MenuListProps) {
                   onToggleAvailability={handleToggleAvailability}
                   onEdit={onEdit}
                   onDelete={handleDelete}
+                  onRecipe={setRecipeItem}
                 />
               ))}
             </SortableContext>
           </DndContext>
         </div>
       ))}
+
+      {/* Recipe builder dialog */}
+      <Dialog
+        open={recipeItem !== null}
+        onOpenChange={(open) => { if (!open) setRecipeItem(null) }}
+      >
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              Recipe: {recipeItem?.name}
+            </DialogTitle>
+          </DialogHeader>
+          {recipeItem && (
+            <RecipeBuilder
+              menuItem={recipeItem}
+              onClose={() => setRecipeItem(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -150,6 +150,41 @@ export type StoreSetting = {
 }
 
 // ============================================================
+// Recipe & Inventory Types
+// ============================================================
+
+export type Ingredient = {
+  id: string
+  name: string
+  unit: string
+  cost_per_unit: number
+  stock_quantity: number
+  low_stock_threshold: number
+  supplier: string | null
+  created_at: string
+}
+
+export type Recipe = {
+  id: string
+  menu_item_id: string | null
+  item_option_id: string | null
+  size_variant: string | null
+  created_at: string
+}
+
+export type RecipeIngredient = {
+  id: string
+  recipe_id: string
+  ingredient_id: string
+  quantity: number
+  notes: string | null
+}
+
+export type RecipeWithIngredients = Recipe & {
+  recipe_ingredients: (RecipeIngredient & { ingredients: Ingredient })[]
+}
+
+// ============================================================
 // Cart Type
 // ============================================================
 

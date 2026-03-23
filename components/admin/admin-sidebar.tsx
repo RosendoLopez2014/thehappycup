@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X, ExternalLink } from 'lucide-react'
+import { ClipboardList, UtensilsCrossed, Users, Settings, Menu, X, ExternalLink, Package } from 'lucide-react'
 import { useState } from 'react'
 
 interface NavItem {
@@ -27,6 +27,11 @@ const navItems: NavItem[] = [
     href: '/admin/customers',
     label: 'Customers',
     icon: <Users className="w-5 h-5 shrink-0" />,
+  },
+  {
+    href: '/admin/ingredients',
+    label: 'Ingredients',
+    icon: <Package className="w-5 h-5 shrink-0" />,
   },
   {
     href: '/admin/settings',
