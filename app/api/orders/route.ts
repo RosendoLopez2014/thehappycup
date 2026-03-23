@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import type { CartItem } from '@/lib/types'
+import { resend } from '@/lib/resend'
+import OrderConfirmationEmail from '@/components/email/order-confirmation'
 
 interface OrderRequest {
   items: CartItem[]
@@ -173,6 +175,48 @@ export async function POST(request: Request) {
           .update({ points_balance: Math.max(0, customer.points_balance - pointsToRedeem) })
           .eq('id', customerId)
       }
+    }
+  }
+
+  // Send order confirmation email (non-blocking — failure does not cancel the order)
+  if (resend) {
+    try {
+      const fmt = (n: number) =>
+        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n)
+
+      const emailItems = items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        options: Object.values(item.selectedOptions)
+          .map((o) => o.name)
+          .join(', '),
+        price: fmt(item.lineTotal),
+      }))
+
+      const estimatedTime =
+        orderType === 'delivery' ? '45–60 minutes' : '15–20 minutes'
+
+      await resend.emails.send({
+        from: 'The Happy Cup <onboarding@resend.dev>',
+        to: customerEmail,
+        subject: `Order Confirmed — The Happy Cup #${order.id.slice(0, 8)}`,
+        react: OrderConfirmationEmail({
+          orderNumber: order.id.slice(0, 8),
+          customerName,
+          items: emailItems,
+          subtotal: fmt(subtotal),
+          discount: fmt(discount),
+          deliveryFee: fmt(deliveryFee ?? 0),
+          total: fmt(total),
+          orderType,
+          deliveryAddress: deliveryAddress ?? undefined,
+          paymentMethod,
+          paymentStatus: paymentMethod === 'cash_venmo' ? 'pending' : 'pending',
+          estimatedTime,
+        }),
+      })
+    } catch (emailError) {
+      console.error('Failed to send order confirmation email:', emailError)
     }
   }
 
