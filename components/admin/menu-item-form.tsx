@@ -353,7 +353,7 @@ export function MenuItemForm({ item, categories, onSave, onCancel }: MenuItemFor
                     onChange={(e) => updateOption(gIdx, oIdx, 'name', e.target.value)}
                     placeholder="Option name"
                     disabled={loading}
-                    className="flex-1"
+                    className="flex-1 min-w-0"
                   />
                   <Input
                     type="number"
@@ -362,7 +362,7 @@ export function MenuItemForm({ item, categories, onSave, onCancel }: MenuItemFor
                     onChange={(e) => updateOption(gIdx, oIdx, 'priceAdjustment', e.target.value)}
                     placeholder="+0.00"
                     disabled={loading}
-                    className="w-24"
+                    className="w-20 shrink-0"
                   />
                   <Button
                     type="button"
@@ -370,7 +370,7 @@ export function MenuItemForm({ item, categories, onSave, onCancel }: MenuItemFor
                     size="icon"
                     onClick={() => removeOption(gIdx, oIdx)}
                     disabled={loading}
-                    className="text-warm-400 hover:text-red-500 flex-shrink-0"
+                    className="text-warm-400 hover:text-red-500 flex-shrink-0 min-h-[44px] min-w-[44px]"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -399,11 +399,11 @@ export function MenuItemForm({ item, categories, onSave, onCancel }: MenuItemFor
       )}
 
       {/* Actions */}
-      <div className="flex justify-end gap-2 pt-1">
-        <Button type="button" variant="outline" onClick={onCancel} disabled={loading}>
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-1">
+        <Button type="button" variant="outline" onClick={onCancel} disabled={loading} className="min-h-[44px]">
           Cancel
         </Button>
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="min-h-[44px]">
           {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
           {isEdit ? 'Save changes' : 'Create item'}
         </Button>

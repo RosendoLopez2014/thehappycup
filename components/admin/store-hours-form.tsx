@@ -74,16 +74,16 @@ export function StoreHoursForm({ initialHours }: StoreHoursFormProps) {
 
   return (
     <form onSubmit={handleSave} className="space-y-4">
-      <div className="rounded-xl border border-warm-200 divide-y divide-warm-100">
+      <div className="rounded-xl border border-warm-200 divide-y divide-warm-100 overflow-x-auto">
         {/* Header */}
-        <div className="grid grid-cols-3 gap-4 px-4 py-2.5 bg-warm-50 text-xs font-semibold text-warm-500 uppercase tracking-wide">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 px-4 py-2.5 bg-warm-50 text-xs font-semibold text-warm-500 uppercase tracking-wide min-w-[300px]">
           <span>Day</span>
           <span>Opens</span>
           <span>Closes</span>
         </div>
 
         {DAYS.map(({ key, label }) => (
-          <div key={key} className="grid grid-cols-3 gap-4 items-center px-4 py-3">
+          <div key={key} className="grid grid-cols-3 gap-2 sm:gap-4 items-center px-4 py-3 min-w-[300px]">
             <span className="text-sm font-medium text-warm-700">{label}</span>
             <div>
               <Label htmlFor={`${key}-open`} className="sr-only">
@@ -94,7 +94,7 @@ export function StoreHoursForm({ initialHours }: StoreHoursFormProps) {
                 type="time"
                 value={hours[key].open}
                 onChange={(e) => updateDay(key, 'open', e.target.value)}
-                className="w-32"
+                className="w-full max-w-[9rem]"
               />
             </div>
             <div>
@@ -106,7 +106,7 @@ export function StoreHoursForm({ initialHours }: StoreHoursFormProps) {
                 type="time"
                 value={hours[key].close}
                 onChange={(e) => updateDay(key, 'close', e.target.value)}
-                className="w-32"
+                className="w-full max-w-[9rem]"
               />
             </div>
           </div>

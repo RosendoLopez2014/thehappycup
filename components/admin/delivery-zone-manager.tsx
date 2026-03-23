@@ -110,32 +110,34 @@ export function DeliveryZoneManager({ initialZones }: DeliveryZoneManagerProps) 
   return (
     <div className="space-y-6">
       {/* Add Zone Form */}
-      <form onSubmit={handleAdd} className="flex flex-wrap items-end gap-3">
-        <div className="space-y-1.5">
-          <Label htmlFor="zip-code">Zip Code</Label>
-          <Input
-            id="zip-code"
-            type="text"
-            placeholder="e.g. 90210"
-            value={zipCode}
-            onChange={(e) => setZipCode(e.target.value)}
-            className="w-36"
-          />
+      <form onSubmit={handleAdd} className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-3">
+        <div className="flex gap-3 flex-1">
+          <div className="space-y-1.5 flex-1 min-w-0">
+            <Label htmlFor="zip-code">Zip Code</Label>
+            <Input
+              id="zip-code"
+              type="text"
+              placeholder="e.g. 90210"
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value)}
+              className="w-full"
+            />
+          </div>
+          <div className="space-y-1.5 flex-1 min-w-0">
+            <Label htmlFor="delivery-fee">Delivery Fee ($)</Label>
+            <Input
+              id="delivery-fee"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="e.g. 3.99"
+              value={deliveryFee}
+              onChange={(e) => setDeliveryFee(e.target.value)}
+              className="w-full"
+            />
+          </div>
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="delivery-fee">Delivery Fee ($)</Label>
-          <Input
-            id="delivery-fee"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="e.g. 3.99"
-            value={deliveryFee}
-            onChange={(e) => setDeliveryFee(e.target.value)}
-            className="w-32"
-          />
-        </div>
-        <Button type="submit" disabled={adding}>
+        <Button type="submit" disabled={adding} className="w-full sm:w-auto min-h-[44px]">
           {adding ? (
             <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> Adding…</>
           ) : (
@@ -151,11 +153,11 @@ export function DeliveryZoneManager({ initialZones }: DeliveryZoneManagerProps) 
       ) : (
         <div className="rounded-xl border border-warm-200 divide-y divide-warm-100">
           {zones.map((zone) => (
-            <div key={zone.id} className="flex items-center gap-4 px-4 py-3">
-              <span className="font-mono font-medium text-warm-700 w-24">{zone.zip_code}</span>
-              <span className="text-warm-500 flex-1">{formatCurrency(zone.delivery_fee)}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-warm-400">{zone.is_active ? 'Active' : 'Inactive'}</span>
+            <div key={zone.id} className="flex items-center gap-3 px-4 py-3 min-w-0">
+              <span className="font-mono font-medium text-warm-700 w-20 shrink-0">{zone.zip_code}</span>
+              <span className="text-warm-500 flex-1 min-w-0">{formatCurrency(zone.delivery_fee)}</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-xs text-warm-400 hidden sm:inline">{zone.is_active ? 'Active' : 'Inactive'}</span>
                 <Switch
                   checked={zone.is_active}
                   disabled={togglingId === zone.id}
@@ -168,7 +170,7 @@ export function DeliveryZoneManager({ initialZones }: DeliveryZoneManagerProps) 
                 variant="ghost"
                 disabled={removingId === zone.id}
                 onClick={() => handleRemove(zone.id)}
-                className="text-warm-400 hover:text-red-500 h-8 w-8"
+                className="text-warm-400 hover:text-red-500 h-9 w-9 shrink-0 min-h-[44px] min-w-[44px]"
                 aria-label={`Remove zone ${zone.zip_code}`}
               >
                 {removingId === zone.id ? (

@@ -144,7 +144,7 @@ export default function IngredientsPage() {
           <p className="text-xs mt-1">Click &ldquo;Add Ingredient&rdquo; to get started</p>
         </div>
       ) : (
-        <div className="rounded-xl border border-warm-200 overflow-hidden">
+        <div className="rounded-xl border border-warm-200 overflow-hidden overflow-x-auto">
           {/* Table header */}
           <div className="hidden sm:grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_auto] gap-4 px-4 py-2.5 bg-warm-50 border-b border-warm-200 text-xs font-semibold text-warm-500 uppercase tracking-wider">
             <span>Name</span>
@@ -189,7 +189,7 @@ export default function IngredientsPage() {
           }
         }}
       >
-        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingIngredient ? `Edit "${editingIngredient.name}"` : 'New Ingredient'}

@@ -74,10 +74,10 @@ async function ConfirmationContent({ orderId }: { orderId: string }) {
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
           <span className="text-warm-400">Name</span>
-          <span className="text-warm-600">{typedOrder.customer_name}</span>
+          <span className="text-warm-600 break-all">{typedOrder.customer_name}</span>
 
           <span className="text-warm-400">Email</span>
-          <span className="text-warm-600">{typedOrder.customer_email}</span>
+          <span className="text-warm-600 break-all">{typedOrder.customer_email}</span>
 
           <span className="text-warm-400">Order type</span>
           <span className="text-warm-600 capitalize">{typedOrder.order_type}</span>
@@ -85,7 +85,7 @@ async function ConfirmationContent({ orderId }: { orderId: string }) {
           {typedOrder.order_type === 'delivery' && typedOrder.delivery_address && (
             <>
               <span className="text-warm-400">Delivery address</span>
-              <span className="text-warm-600">
+              <span className="text-warm-600 break-words">
                 {typedOrder.delivery_address}, {typedOrder.delivery_zip}
               </span>
             </>

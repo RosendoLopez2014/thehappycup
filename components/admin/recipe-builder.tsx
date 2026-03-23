@@ -251,7 +251,7 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
                 {rows.map((row, idx) => {
                   const ing = ingredients.find((i) => i.id === row.ingredient_id)
                   return (
-                    <div key={idx} className="flex items-center gap-2">
+                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-2 p-2 rounded-lg bg-warm-50/50 sm:bg-transparent sm:p-0">
                       {/* Ingredient selector */}
                       <div className="flex-1 min-w-0">
                         <Select
@@ -272,40 +272,43 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
                         </Select>
                       </div>
 
-                      {/* Quantity */}
-                      <div className="w-20 shrink-0">
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.001"
-                          value={row.quantity}
-                          onChange={(e) => updateRow(size, idx, 'quantity', e.target.value)}
-                          placeholder="qty"
-                          className="text-sm font-mono"
-                        />
+                      {/* Quantity + unit + cost row on mobile */}
+                      <div className="flex items-center gap-2">
+                        {/* Quantity */}
+                        <div className="w-20 shrink-0">
+                          <Input
+                            type="number"
+                            min="0"
+                            step="0.001"
+                            value={row.quantity}
+                            onChange={(e) => updateRow(size, idx, 'quantity', e.target.value)}
+                            placeholder="qty"
+                            className="text-sm font-mono"
+                          />
+                        </div>
+
+                        {/* Unit label */}
+                        <span className="text-xs text-warm-400 w-10 shrink-0 text-center">
+                          {ing?.unit ?? ''}
+                        </span>
+
+                        {/* Line cost */}
+                        <span className="text-xs font-mono text-warm-500 w-14 text-right shrink-0">
+                          {ing
+                            ? `$${(ing.cost_per_unit * (Number(row.quantity) || 0)).toFixed(2)}`
+                            : ''}
+                        </span>
+
+                        {/* Remove */}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeRow(size, idx)}
+                          className="w-9 h-9 text-warm-300 hover:text-red-500 shrink-0 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-7 sm:h-7"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
                       </div>
-
-                      {/* Unit label */}
-                      <span className="text-xs text-warm-400 w-10 shrink-0 text-center">
-                        {ing?.unit ?? ''}
-                      </span>
-
-                      {/* Line cost */}
-                      <span className="text-xs font-mono text-warm-500 w-14 text-right shrink-0">
-                        {ing
-                          ? `$${(ing.cost_per_unit * (Number(row.quantity) || 0)).toFixed(2)}`
-                          : ''}
-                      </span>
-
-                      {/* Remove */}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeRow(size, idx)}
-                        className="w-7 h-7 text-warm-300 hover:text-red-500 shrink-0"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
                     </div>
                   )
                 })}
@@ -357,20 +360,20 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
               )}
 
               {/* Actions */}
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 {hasRecipe && (
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
                     onClick={() => handleDeleteRecipe(size)}
-                    className="text-warm-400 hover:text-red-500 text-xs"
+                    className="text-warm-400 hover:text-red-500 text-xs min-h-[44px] sm:min-h-0"
                   >
                     <Trash2 className="w-3.5 h-3.5 mr-1" />
                     Delete {size} recipe
                   </Button>
                 )}
-                <div className="ml-auto flex items-center gap-2">
+                <div className="sm:ml-auto flex items-center gap-2">
                   {savedSize === size && (
                     <span className="text-xs text-green-600 font-medium">Saved!</span>
                   )}
@@ -378,6 +381,7 @@ export function RecipeBuilder({ menuItem, onClose }: RecipeBuilderProps) {
                     size="sm"
                     onClick={() => handleSave(size)}
                     disabled={saving === size}
+                    className="flex-1 sm:flex-none min-h-[44px] sm:min-h-0"
                   >
                     {saving === size ? (
                       <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />

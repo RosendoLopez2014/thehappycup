@@ -117,7 +117,7 @@ export function IngredientRow({ ingredient, onEdit, onDelete, onStockAdjust }: I
           <div className="flex items-center gap-1">
             <button
               onClick={() => onStockAdjust(ingredient, -1)}
-              className="w-5 h-5 flex items-center justify-center text-warm-400 hover:text-warm-600 rounded"
+              className="w-8 h-8 flex items-center justify-center text-warm-400 hover:text-warm-600 rounded min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-5 sm:h-5"
               title="Remove 1"
             >
               <Minus className="w-3 h-3" />
@@ -125,7 +125,7 @@ export function IngredientRow({ ingredient, onEdit, onDelete, onStockAdjust }: I
             <button
               onClick={handleStockClick}
               className={[
-                'font-mono text-sm px-1 rounded hover:bg-warm-100 transition-colors',
+                'font-mono text-sm px-1 rounded hover:bg-warm-100 transition-colors min-h-[44px] sm:min-h-0',
                 isLowStock ? 'text-orange-600 font-semibold' : 'text-warm-600',
               ].join(' ')}
               title="Click to set exact amount"
@@ -134,7 +134,7 @@ export function IngredientRow({ ingredient, onEdit, onDelete, onStockAdjust }: I
             </button>
             <button
               onClick={() => onStockAdjust(ingredient, 1)}
-              className="w-5 h-5 flex items-center justify-center text-warm-400 hover:text-warm-600 rounded"
+              className="w-8 h-8 flex items-center justify-center text-warm-400 hover:text-warm-600 rounded min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:w-5 sm:h-5"
               title="Add 1"
             >
               <Plus className="w-3 h-3" />

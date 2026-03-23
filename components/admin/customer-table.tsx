@@ -94,7 +94,7 @@ function AdjustPointsDialog({ customer, open, onClose, onSuccess }: AdjustPoints
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) handleClose() }}>
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="w-[95vw] sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Adjust Points — {customer.name}</DialogTitle>
         </DialogHeader>
@@ -127,11 +127,11 @@ function AdjustPointsDialog({ customer, open, onClose, onSuccess }: AdjustPoints
             />
           </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={handleClose} disabled={submitting}>
+          <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
+            <Button type="button" variant="outline" onClick={handleClose} disabled={submitting} className="min-h-[44px]">
               Cancel
             </Button>
-            <Button type="submit" disabled={submitting}>
+            <Button type="submit" disabled={submitting} className="min-h-[44px]">
               {submitting ? (
                 <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> Saving…</>
               ) : (

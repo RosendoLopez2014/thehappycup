@@ -184,11 +184,11 @@ export function IngredientForm({ ingredient, onSave, onCancel }: IngredientFormP
       )}
 
       {/* Actions */}
-      <div className="flex justify-end gap-2 pt-1">
-        <Button type="button" variant="outline" onClick={onCancel} disabled={loading}>
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-1">
+        <Button type="button" variant="outline" onClick={onCancel} disabled={loading} className="min-h-[44px]">
           Cancel
         </Button>
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="min-h-[44px]">
           {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
           {isEdit ? 'Save changes' : 'Add ingredient'}
         </Button>

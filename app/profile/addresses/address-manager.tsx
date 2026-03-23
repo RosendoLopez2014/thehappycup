@@ -205,7 +205,7 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
               variant="ghost"
               size="sm"
               onClick={() => openEditForm(address)}
-              className="text-warm-500 hover:text-warm-700 hover:bg-warm-100 text-xs"
+              className="text-warm-500 hover:text-warm-700 hover:bg-warm-100 text-xs min-h-[44px] px-3"
             >
               Edit
             </Button>
@@ -217,7 +217,7 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
                   size="sm"
                   onClick={() => handleDelete(address.id)}
                   disabled={deletingId === address.id}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs min-h-[44px] px-3"
                 >
                   {deletingId === address.id ? 'Deleting…' : 'Confirm'}
                 </Button>
@@ -225,7 +225,7 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
                   variant="ghost"
                   size="sm"
                   onClick={() => setConfirmDeleteId(null)}
-                  className="text-warm-400 hover:text-warm-600 text-xs"
+                  className="text-warm-400 hover:text-warm-600 text-xs min-h-[44px] px-3"
                 >
                   Cancel
                 </Button>
@@ -235,7 +235,7 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
                 variant="ghost"
                 size="sm"
                 onClick={() => setConfirmDeleteId(address.id)}
-                className="text-warm-400 hover:text-red-600 hover:bg-red-50 text-xs"
+                className="text-warm-400 hover:text-red-600 hover:bg-red-50 text-xs min-h-[44px] px-3"
               >
                 Delete
               </Button>
@@ -313,11 +313,11 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
             </p>
           )}
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Button
               onClick={handleSave}
               disabled={saving}
-              className="bg-warm-600 hover:bg-warm-700 text-white"
+              className="bg-warm-600 hover:bg-warm-700 text-white min-h-[48px] sm:min-h-[44px]"
             >
               {saving ? 'Saving…' : 'Save Address'}
             </Button>
@@ -325,7 +325,7 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
               variant="ghost"
               onClick={cancelForm}
               disabled={saving}
-              className="text-warm-500 hover:text-warm-700"
+              className="text-warm-500 hover:text-warm-700 min-h-[44px]"
             >
               Cancel
             </Button>
@@ -337,7 +337,7 @@ export function AddressManager({ customerId, initialAddresses }: AddressManagerP
       {!showForm && (
         <Button
           onClick={openNewForm}
-          className="bg-warm-600 hover:bg-warm-700 text-white self-start"
+          className="bg-warm-600 hover:bg-warm-700 text-white w-full sm:w-auto min-h-[48px]"
         >
           + Add New Address
         </Button>

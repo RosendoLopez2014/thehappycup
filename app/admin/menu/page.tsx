@@ -87,7 +87,7 @@ export default function AdminMenuPage() {
               Add New Item
             </Button>
           } onClick={handleOpenNew} />
-          <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="w-[95vw] max-w-xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingItem ? `Edit "${editingItem.name}"` : 'New Menu Item'}

@@ -67,78 +67,121 @@ function SortableItemRow({ item, onToggleAvailability, onEdit, onDelete, onRecip
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-3 px-4 py-3 bg-white border-b border-warm-100 last:border-b-0 hover:bg-warm-50 transition-colors"
+      className="flex items-start sm:items-center gap-3 px-3 sm:px-4 py-3 bg-white border-b border-warm-100 last:border-b-0 hover:bg-warm-50 transition-colors"
     >
       {/* Drag handle */}
       <button
         {...attributes}
         {...listeners}
-        className="text-warm-300 hover:text-warm-500 cursor-grab active:cursor-grabbing flex-shrink-0 touch-none"
+        className="text-warm-300 hover:text-warm-500 cursor-grab active:cursor-grabbing flex-shrink-0 touch-none mt-0.5 sm:mt-0"
         aria-label="Drag to reorder"
         type="button"
       >
         <GripVertical className="w-4 h-4" />
       </button>
 
-      {/* Name + sold out badge */}
+      {/* Name + sold out badge + actions row on mobile */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm font-medium text-warm-700 truncate">{item.name}</span>
           {!item.is_available && (
-            <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-warm-100 text-warm-500">
+            <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-warm-100 text-warm-500 shrink-0">
               Sold Out
             </Badge>
           )}
         </div>
         <div className="flex items-center gap-2 mt-0.5 flex-wrap">
           {item.description && (
-            <p className="text-xs text-warm-400 truncate">{item.description}</p>
+            <p className="text-xs text-warm-400 truncate max-w-[180px] sm:max-w-none">{item.description}</p>
           )}
           <RecipeCostBadge menuItemId={item.id} sellPrice={item.price} />
         </div>
+
+        {/* Mobile action row */}
+        <div className="flex items-center gap-1 mt-2 sm:hidden">
+          <span className="font-mono text-sm text-warm-600 mr-auto">
+            ${item.price.toFixed(2)}
+          </span>
+          <Switch
+            checked={item.is_available}
+            onCheckedChange={() => onToggleAvailability(item.id, item.is_available)}
+            aria-label={`Toggle availability for ${item.name}`}
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onRecipe(item)}
+            className="text-warm-400 hover:text-warm-700 h-9 w-9"
+            aria-label={`Recipe for ${item.name}`}
+          >
+            <ChefHat className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onEdit(item)}
+            className="text-warm-400 hover:text-warm-700 h-9 w-9"
+            aria-label={`Edit ${item.name}`}
+          >
+            <Pencil className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-warm-400 hover:text-red-500 h-9 w-9"
+            aria-label={`Delete ${item.name}`}
+            onClick={() => {
+              if (window.confirm(`Delete "${item.name}"? This cannot be undone.`)) {
+                onDelete(item.id)
+              }
+            }}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
-      {/* Price */}
-      <span className="font-mono text-sm text-warm-600 flex-shrink-0">
+      {/* Desktop: Price */}
+      <span className="font-mono text-sm text-warm-600 flex-shrink-0 hidden sm:inline">
         ${item.price.toFixed(2)}
       </span>
 
-      {/* Availability toggle */}
+      {/* Desktop: Availability toggle */}
       <Switch
         checked={item.is_available}
         onCheckedChange={() => onToggleAvailability(item.id, item.is_available)}
         aria-label={`Toggle availability for ${item.name}`}
-        className="flex-shrink-0"
+        className="flex-shrink-0 hidden sm:flex"
       />
 
-      {/* Recipe */}
+      {/* Desktop: Recipe */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => onRecipe(item)}
-        className="flex-shrink-0 text-warm-400 hover:text-warm-700"
+        className="flex-shrink-0 text-warm-400 hover:text-warm-700 hidden sm:flex"
         aria-label={`Recipe for ${item.name}`}
         title="Edit recipe"
       >
         <ChefHat className="w-4 h-4" />
       </Button>
 
-      {/* Edit */}
+      {/* Desktop: Edit */}
       <Button
         variant="ghost"
         size="icon"
         onClick={() => onEdit(item)}
-        className="flex-shrink-0 text-warm-400 hover:text-warm-700"
+        className="flex-shrink-0 text-warm-400 hover:text-warm-700 hidden sm:flex"
         aria-label={`Edit ${item.name}`}
       >
         <Pencil className="w-4 h-4" />
       </Button>
 
-      {/* Delete */}
+      {/* Desktop: Delete */}
       <Button
         variant="ghost"
         size="icon"
-        className="flex-shrink-0 text-warm-400 hover:text-red-500"
+        className="flex-shrink-0 text-warm-400 hover:text-red-500 hidden sm:flex"
         aria-label={`Delete ${item.name}`}
         onClick={() => {
           if (window.confirm(`Delete "${item.name}"? This cannot be undone.`)) {
@@ -360,7 +403,7 @@ export function MenuList({ onEdit, refreshKey }: MenuListProps) {
         open={recipeItem !== null}
         onOpenChange={(open) => { if (!open) setRecipeItem(null) }}
       >
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               Recipe: {recipeItem?.name}
