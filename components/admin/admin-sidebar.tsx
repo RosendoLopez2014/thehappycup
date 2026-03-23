@@ -74,13 +74,13 @@ export function AdminSidebar() {
       {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col w-60 shrink-0 bg-warm-700 min-h-screen">
         {/* Logo */}
-        <div className="flex items-center px-5 py-4 border-b border-warm-600">
+        <div className="flex items-center px-4 py-5 border-b border-warm-600">
           <Image
             src="/logo/header/header-logo-white.png"
             alt="The Happy Cup"
-            width={260}
-            height={60}
-            className="object-contain h-10 w-auto"
+            width={400}
+            height={100}
+            className="object-contain h-auto w-full"
           />
         </div>
 
