@@ -201,7 +201,7 @@ export default function LandingPage() {
               ].map(({ step, title, desc }, i) => (
                 <div
                   key={step}
-                  className={`animate-fade-up delay-${(i + 1) * 200} relative flex flex-col gap-4`}
+                  className={`animate-fade-up delay-${(i + 1) * 200} relative flex flex-col items-center text-center gap-4`}
                 >
                   <span className="font-display text-6xl sm:text-7xl font-bold text-white/10 leading-none">
                     {step}
@@ -212,11 +212,6 @@ export default function LandingPage() {
                   <p className="text-warm-200/70 text-sm leading-relaxed max-w-xs">
                     {desc}
                   </p>
-
-                  {/* Connector line on desktop */}
-                  {i < 2 && (
-                    <div className="hidden sm:block absolute top-8 -right-3 w-6 h-px bg-white/20" />
-                  )}
                 </div>
               ))}
             </div>
